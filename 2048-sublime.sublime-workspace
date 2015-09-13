@@ -1,0 +1,892 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"game",
+				"GameManager"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"text",
+				"text-align"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"cur",
+				"cursor"
+			],
+			[
+				"bcg",
+				"background-color"
+			],
+			[
+				"he",
+				"height"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"bac",
+				"background-position"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"text-",
+				"text-transform"
+			],
+			[
+				"par",
+				"parallax-1"
+			],
+			[
+				"head",
+				"header"
+			],
+			[
+				"my",
+				"mysql_query"
+			],
+			[
+				"MySQL_",
+				"mysql_query"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"pa",
+				"padding-left"
+			],
+			[
+				"pad",
+				"padding-bottom"
+			],
+			[
+				"bor",
+				"border-radius"
+			],
+			[
+				"rg",
+				"rgba()"
+			],
+			[
+				"paddin",
+				"padding-top"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"col-md",
+				"col-md-6"
+			],
+			[
+				"col-m",
+				"col-md-6"
+			],
+			[
+				"te",
+				"text-decoration"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"ma",
+				"margin-bottom"
+			],
+			[
+				"bo",
+				"bolder"
+			],
+			[
+				"col",
+				"color"
+			],
+			[
+				"mo",
+				"module"
+			],
+			[
+				"for",
+				"form	Tag"
+			],
+			[
+				"p",
+				"p"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"$s",
+				"$scope	AngularJS"
+			],
+			[
+				"li",
+				"li	Tag"
+			],
+			[
+				"gta",
+				"gta-v"
+			],
+			[
+				"colo",
+				"color"
+			],
+			[
+				"h",
+				"h3	Tag"
+			],
+			[
+				"fo",
+				"font-size"
+			],
+			[
+				"h3",
+				"h3_after"
+			],
+			[
+				"remove",
+				"removeClass"
+			],
+			[
+				"mouse",
+				"mouseenter"
+			],
+			[
+				"add",
+				"addClass"
+			],
+			[
+				"margi",
+				"margin"
+			],
+			[
+				"s",
+				"span	Tag"
+			],
+			[
+				"ali",
+				"vertical-align"
+			],
+			[
+				"i",
+				"img	Tag"
+			],
+			[
+				"st",
+				"style	Tag"
+			],
+			[
+				"cont",
+				"controllerAs"
+			],
+			[
+				"prod",
+				"productReview"
+			],
+			[
+				"se",
+				"section	Tag"
+			],
+			[
+				"border-c",
+				"border-color"
+			],
+			[
+				"op",
+				"option	Tag"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"so",
+				"social_menu"
+			],
+			[
+				"sc",
+				"scrollTop"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"margin-",
+				"margin-bottom"
+			],
+			[
+				"a",
+				"auto"
+			],
+			[
+				"PA",
+				"padding"
+			],
+			[
+				"max",
+				"max-height"
+			],
+			[
+				"MA",
+				"margin"
+			],
+			[
+				"wd",
+				"wdrożenia_offer"
+			],
+			[
+				"po",
+				"portfolio_slider"
+			],
+			[
+				"wspa",
+				"wsparcie_offer"
+			],
+			[
+				"bu",
+				"button1"
+			],
+			[
+				"nav",
+				"navbar"
+			],
+			[
+				"in",
+				"input	Tag"
+			],
+			[
+				"main-",
+				"main-panel-button2"
+			],
+			[
+				"main",
+				"main-panel-button"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"f",
+				"float"
+			],
+			[
+				"border-r",
+				"border-right"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"lis",
+				"list-style"
+			],
+			[
+				"cl",
+				"clear"
+			],
+			[
+				"top-",
+				"top-nav"
+			],
+			[
+				"Bac",
+				"background-color"
+			],
+			[
+				"u",
+				"ul	Tag"
+			],
+			[
+				"mag",
+				"margin-top"
+			],
+			[
+				"panel",
+				"panel1"
+			],
+			[
+				"font-s",
+				"font-style"
+			],
+			[
+				"align",
+				"vertical-align"
+			],
+			[
+				"inli",
+				"inline-block"
+			],
+			[
+				"al",
+				"vertical-align"
+			],
+			[
+				"bl",
+				"inline-block"
+			],
+			[
+				"di",
+				"display"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/scripts/app.js",
+			"settings":
+			{
+				"buffer_size": 311,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/index.html",
+			"settings":
+			{
+				"buffer_size": 408,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<!-- heading inside app/views/main.html -->\n<div id=\"content\" ng-controller='GameController as ctrl'>\n  <div id=\"heading\" class=\"row\">\n    <h1 class=\"title\">ng-2048</h1>\n    <div class=\"scores-container\">\n      <div class=\"score-container\">{{ ctrl.game.currentScore }}</div>\n      <div class=\"best-container\">{{ ctrl.game.highScore }}</div>\n    </div>\n  </div>\n  <!-- ... -->\n</div>",
+			"file": "app/views/main.html",
+			"file_size": 692,
+			"file_write_time": 130866250610000000,
+			"settings":
+			{
+				"buffer_size": 382,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"packe control:in",
+				"Package Control: Install Package"
+			],
+			[
+				"package insta",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 512.0
+	},
+	"console":
+	{
+		"height": 153.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/G/Backup/Apibara/HTML/js/gmap.js",
+		"/C/Users/Michał/Desktop/Apibara/HTML/index.html",
+		"/C/Users/Michał/Desktop/Apibara/HTML/sass/style.scss",
+		"/C/Users/Michał/Desktop/Apibara/HTML/js/script.js",
+		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+		"/G/BpO/eX/The Killing S01 SWESUB HDTV  XviD - Starchild666/The Killing S01E12.txt",
+		"/C/Users/Michał/Desktop/header.php",
+		"/G/BpO/eX/True.Detective.S02E01.PROPER.720p.HDTV.x264-KILLERS/True.Detective.S02E01.PROPER.720p.HDTV.x264-KiLLERS[napisy24.net].txt",
+		"/G/Program Files (x86)/xampp_2/htdocs/menu-strona/sftp-config.json",
+		"/G/Program Files (x86)/xampp_2/htdocs/menu-strona/sass/_mixins.scss",
+		"/G/Program Files (x86)/xampp_2/htdocs/menu-strona/sass/style.scss",
+		"/G/Program Files (x86)/xampp_2/htdocs/menu-strona/index.html",
+		"/C/Users/Michał/Desktop/menu-strona/sass/style.scss",
+		"/C/Users/Michał/Desktop/menu-strona/index.html",
+		"/C/Users/Michał/Desktop/flip/flip/index.html",
+		"/C/Users/Michał/Desktop/CMS/config.php",
+		"/C/Users/Michał/Desktop/cms.sql",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/index.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/config.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/cms.sql",
+		"/C/Users/Michał/Downloads/cms (1).sql",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/sass/style.scss",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/classes/Article.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/README.md",
+		"/G/Program Files (x86)/xampp_2/htdocs/sklep/wp-config-sample.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/sklep/wp-config.php",
+		"/C/Users/Michał/Desktop/baza_danych.sql",
+		"/G/kursy/woo/zrodla/linki.txt",
+		"/C/Users/Michał/Desktop/127_0_0_1.sql",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/templates/include/header.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/templates/admin/editArticle.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/.gitignore",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/.gitattributes",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/templates/archive.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/style.css",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/templates/homepage.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/templates/viewArticle.php",
+		"/G/Program Files (x86)/xampp_2/htdocs/CMS/templates/include/footer.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/index.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/config.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/templates/viewArticle.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/templates/homepage.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/templates/archive.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/templates/admin/editArticle.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/Projekt Zaliczeniowy/CMS-master/CMS-master/classes/Article.php",
+		"/G/Program Files (x86)/xampp/apache/conf/extra/httpd-xampp.conf",
+		"/G/BpO/eX/House.of.Cards.S03.720p.WEBRip.DD5.1.x264-FGT/House.of.Cards.S03E08.720p.WEBRip.DD5.1.x264-FGT.txt",
+		"/G/Program Files (x86)/xampp/apache/conf/httpd.conf",
+		"/C/Users/Michał/Desktop/httpd.conf.txt",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/ĆWICZENIE/simpleCMS",
+		"/G/BpO/eX/House.of.Cards.S03.720p.WEBRip.DD5.1.x264-FGT/House.of.Cards.S03E07.720p.WEBRip.DD5.1.x264-FGT.txt",
+		"/G/Activision/Vampire - The Masquerade Bloodlines/vtmbup-readme.txt",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/ĆWICZENIE/display.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/ĆWICZENIE/display.html",
+		"/G/Program Files (x86)/xampp/htdocs/index.php",
+		"/C/Users/Michał/Desktop/SimpleCMS/SimpleCMS/display.php",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/main.html",
+		"/C/Users/Michał/Desktop/UCZELNIA/CMS/main.html.txt",
+		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/front-page.php",
+		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/index.php",
+		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/css/main.css",
+		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/sftp-config.json",
+		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/css/bootstrap.min.css",
+		"/C/Users/Michał/Desktop/wp-config-sample.php",
+		"/G/Program Files (x86)/xampp/apache/conf/extra/httpd-vhosts.conf",
+		"/C/Users/Michał/Desktop/Administrowanie systemami/httpd.conf",
+		"/C/Users/Michał/Desktop/tor-0.2.5.10.tar/tor-0.2.5.10/tor-0.2.5.10/install-sh",
+		"/G/Program Files (x86)/xampp/apache/manual/programs/htpasswd.html.tr.utf8",
+		"/G/Program Files (x86)/xampp/apache/bin/htpasswd.exe",
+		"/C/nic/index.html",
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/plugins/send-e-mail/send-e-mail.php",
+		"/C/Users/Michał/Desktop/wp-config.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-config.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.css",
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/.htaccess",
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-config-sample.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.min.css",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-config.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-config-sample.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/css/main.css",
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/index.html",
+		"/C/Users/Michał/Desktop/WP/wp-config.php",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/03/sass/03_mixins.scss",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/02/sass/02_zmienne.scss",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/sass/01_zagniezdzone_selektory.scss",
+		"/C/test/sass/test.scss",
+		"/C/Users/Michał/Desktop/test_sass/sass/style.scss",
+		"/C/Users/Michał/Desktop/test_sass/css/tesrt.css",
+		"/C/Users/Michał/Desktop/test_sass/css/style.css",
+		"/C/Users/Michał/Desktop/test_sass/index.html",
+		"/C/Users/Michał/Desktop/test_sass/style.css",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/04/less/04_if.less",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/04/sass/04_if.scss",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/03/less/03_mixins.less",
+		"/C/Users/Michał/Desktop/baseny-iwo",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/css/01_zagniezdzone_selektory.css",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/less/01_zagniezdzone_selektory.less",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/css/01_zagniezdzone_selektory.css.map",
+		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/less/koala-config.json",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/js/contact_me.js",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/mail/contact_me.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/functions.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/style.css",
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/contact_me.js",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/header.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/index.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/page.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/front-page.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/author.php",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/footer.php",
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/jqBootstrapValidation.js",
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/js/main.js",
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/classie.js",
+		"/G/Program Files (x86)/xampp/php/php.ini",
+		"/G/XAMPP/apache/conf/httpd.conf",
+		"/G/XAMPP/phpMyAdmin/index.php",
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/css/agency.css",
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/css/style2.css",
+		"/G/XAMPP/apache/conf/extra/httpd-vhosts.conf",
+		"/G/microsoft/index.html",
+		"/G/ibm/index.html",
+		"/G/XAMPP/apache/bin/httpd.exe",
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/editor-style.css",
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/style.css",
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/sidebar.php",
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/search.php",
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/page.php",
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/index.php"
+	],
+	"find":
+	{
+		"height": 58.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"sympatia",
+			"strefa",
+			"17px",
+			";\n",
+			"singla",
+			"singl",
+			"polis",
+			"pol",
+			"cinem",
+			"alko",
+			"hostinger",
+			"polis",
+			"fotolia",
+			"fot",
+			"fotolia",
+			"link",
+			"lin",
+			"garsoniera",
+			"card",
+			"font-family",
+			"font family",
+			"menu",
+			"hover",
+			"puzzle",
+			"team",
+			"overflow",
+			"cuted",
+			"par",
+			"paral",
+			"paralllax",
+			"paralax",
+			"cuted",
+			"produkt",
+			"nunito",
+			"nun",
+			"nunuto",
+			"nun",
+			"nu",
+			"font-weight",
+			"parallax",
+			"offset",
+			".</",
+			"mobilet",
+			"php",
+			"baza danych",
+			"saubercat",
+			"baza danych",
+			"sauber",
+			"sleepy",
+			"nazwa",
+			"garso",
+			"NeVrea",
+			"ndwz",
+			"play",
+			"psn",
+			"playstation",
+			"peka",
+			"city",
+			"ne",
+			"api",
+			"virt",
+			"table",
+			"sql",
+			"myadmin",
+			"deny",
+			"allow",
+			"admin",
+			"root",
+			"document",
+			"docunment",
+			"docunment root",
+			"docs",
+			"documentroot",
+			"document",
+			"root",
+			"kom",
+			"peka",
+			"footer",
+			"#footer",
+			"758",
+			"#navigation",
+			"#navigation .navbar-nav > li > a",
+			"25px ",
+			"allow",
+			"mod_rewrite",
+			"Rewrite",
+			"rewrite",
+			"nic",
+			"IfModule dir_module",
+			"dir_module",
+			"allow",
+			"DirectoryIndex",
+			"CustomLog",
+			"LogFormat",
+			"documentroot",
+			"listen",
+			"Send E-Mail",
+			"value",
+			"submit",
+			"a:link",
+			" .menu-primary-items a:visited",
+			".menu-unset > ul a:link, .menu-unset > ul a:visited, .menu-primary-items a:link, .menu-primary-items a:visited",
+			"logo",
+			"border-top",
+			";\n",
+			"header",
+			"main",
+			"header",
+			"body",
+			"carousel-main",
+			"#carousel-main",
+			"#carousel-main .carousel-caption h2",
+			"apibara",
+			"obielecki",
+			"apibara",
+			"web",
+			"praca_5",
+			"ulotka",
+			"slider",
+			"metaslider",
+			"strony",
+			"img",
+			"href",
+			"THMJS",
+			"wp_",
+			"input",
+			"listen",
+			"menu"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"G:/"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/scripts/app.js",
+					"settings":
+					{
+						"buffer_size": 311,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								311,
+								311
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/index.html",
+					"settings":
+					{
+						"buffer_size": 408,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								408,
+								408
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/views/main.html",
+					"settings":
+					{
+						"buffer_size": 382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								382,
+								382
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sftp":
+	{
+		"height": 124.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/Michał/Documents/GitHub/simple-single-page-todo-angularjs-app/public/index.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 188.0,
+	"status_bar_visible": true
+}
