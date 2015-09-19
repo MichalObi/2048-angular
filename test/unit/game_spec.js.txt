@@ -1,0 +1,20 @@
+describe('Game module', function() {
+
+	describe('GameManager', function() {
+
+		// Inject the Game module into this test
+
+		beforeEach(function('Game') {
+			
+			var gameManager;
+
+			  beforeEach(inject(function(GameManager) {
+			    gameManager = GameManager;
+			  });
+			  
+		});
+
+	});
+
+});
+

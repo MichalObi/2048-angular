@@ -364,14 +364,6 @@
 	"buffers":
 	[
 		{
-			"file": "app/scripts/app.js",
-			"settings":
-			{
-				"buffer_size": 311,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/index.html",
 			"settings":
 			{
@@ -380,14 +372,35 @@
 			}
 		},
 		{
-			"contents": "<!-- heading inside app/views/main.html -->\n<div id=\"content\" ng-controller='GameController as ctrl'>\n  <div id=\"heading\" class=\"row\">\n    <h1 class=\"title\">ng-2048</h1>\n    <div class=\"scores-container\">\n      <div class=\"score-container\">{{ ctrl.game.currentScore }}</div>\n      <div class=\"best-container\">{{ ctrl.game.highScore }}</div>\n    </div>\n  </div>\n  <!-- ... -->\n</div>",
 			"file": "app/views/main.html",
-			"file_size": 692,
-			"file_write_time": 130866250610000000,
 			"settings":
 			{
 				"buffer_size": 382,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/scripts/app.js",
+			"settings":
+			{
+				"buffer_size": 301,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/scripts/game/game.js",
+			"settings":
+			{
+				"buffer_size": 382,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test/unit/game_spec.js.txt",
+			"settings":
+			{
+				"buffer_size": 292,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -397,6 +410,10 @@
 		"height": 392.0,
 		"selected_items":
 		[
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
 			[
 				"package",
 				"Package Control: Install Package"
@@ -418,7 +435,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 512.0
+		"width": 472.0
 	},
 	"console":
 	{
@@ -435,6 +452,8 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/spec/controllers/main.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/karma.conf.js",
 		"/G/Backup/Apibara/HTML/js/gmap.js",
 		"/C/Users/Michał/Desktop/Apibara/HTML/index.html",
 		"/C/Users/Michał/Desktop/Apibara/HTML/sass/style.scss",
@@ -560,9 +579,7 @@
 		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/editor-style.css",
 		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/style.css",
 		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/sidebar.php",
-		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/search.php",
-		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/page.php",
-		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/index.php"
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/search.php"
 	],
 	"find":
 	{
@@ -726,40 +743,11 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/scripts/app.js",
-					"settings":
-					{
-						"buffer_size": 311,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								311,
-								311
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "app/index.html",
 					"settings":
 					{
@@ -770,8 +758,8 @@
 						"selection":
 						[
 							[
-								408,
-								408
+								158,
+								158
 							]
 						],
 						"settings":
@@ -790,7 +778,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "app/views/main.html",
 					"settings":
 					{
@@ -813,6 +801,93 @@
 							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/scripts/app.js",
+					"settings":
+					{
+						"buffer_size": 301,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								301,
+								301
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 126.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/scripts/game/game.js",
+					"settings":
+					{
+						"buffer_size": 382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								313,
+								313
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "test/unit/game_spec.js.txt",
+					"settings":
+					{
+						"buffer_size": 292,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								273,
+								273
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jasmine JS/syntax/Jasmine.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

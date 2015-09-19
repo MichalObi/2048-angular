@@ -8,8 +8,10 @@
  *
  * Main module of the application.
  */
+
+
 angular
-  .module('twentyfourtyeightApp', ['ngCookies','Game'])
+  .module('twentyfourtyeightApp', ['Game'])
   .controller('GameController', ['', function(GameManager){
   	this.game = GameManager;
   }]);
