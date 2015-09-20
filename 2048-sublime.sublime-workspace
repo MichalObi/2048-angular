@@ -391,16 +391,24 @@
 			"file": "app/scripts/game/game.js",
 			"settings":
 			{
-				"buffer_size": 382,
+				"buffer_size": 463,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "test/unit/game_spec.js.txt",
+			"file": "test/unit/game_spec.js",
 			"settings":
 			{
-				"buffer_size": 292,
+				"buffer_size": 1192,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test/karma.conf.js",
+			"settings":
+			{
+				"buffer_size": 2096,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -452,8 +460,9 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/spec/controllers/main.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/unit/game_spec.spec.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/karma.conf.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/spec/controllers/main.js",
 		"/G/Backup/Apibara/HTML/js/gmap.js",
 		"/C/Users/Michał/Desktop/Apibara/HTML/index.html",
 		"/C/Users/Michał/Desktop/Apibara/HTML/sass/style.scss",
@@ -578,8 +587,7 @@
 		"/G/XAMPP/apache/bin/httpd.exe",
 		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/editor-style.css",
 		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/style.css",
-		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/sidebar.php",
-		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/search.php"
+		"/C/Users/Michał/Desktop/migration-theme-master/migration-theme-master/sidebar.php"
 	],
 	"find":
 	{
@@ -743,7 +751,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -842,15 +850,15 @@
 					"file": "app/scripts/game/game.js",
 					"settings":
 					{
-						"buffer_size": 382,
+						"buffer_size": 463,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								313,
-								313
+								284,
+								284
 							]
 						],
 						"settings":
@@ -868,18 +876,18 @@
 				},
 				{
 					"buffer": 4,
-					"file": "test/unit/game_spec.js.txt",
+					"file": "test/unit/game_spec.js",
 					"settings":
 					{
-						"buffer_size": 292,
+						"buffer_size": 1192,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								273,
-								273
+								217,
+								217
 							]
 						],
 						"settings":
@@ -887,7 +895,39 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Jasmine JS/syntax/Jasmine.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "test/karma.conf.js",
+					"settings":
+					{
+						"buffer_size": 2096,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1081,
+								1081
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,

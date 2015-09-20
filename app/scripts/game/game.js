@@ -3,8 +3,7 @@
 *
 * Description
 */
-angular.module('Game', []);
-
+angular.module('Game', [])
 .service('GameManager', ['', function(){
 
 	// Create a new game
@@ -20,6 +19,7 @@ angular.module('Game', []);
 	this.updateScore = function(newScore) {};
 
 	// Are there moves left ? - the end of the game 
- 	 this.movesAvailable = function() {};
-
+ 	this.movesAvailable = function() {
+ 	 	return GridService.anyCellAvailable() || GridService.titleMatchesAvailable();
+ 	};
 }]);
