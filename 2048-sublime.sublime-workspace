@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"Grid",
+				"GridService"
+			],
+			[
+				"be",
+				"beforeEach"
+			],
+			[
 				"game",
 				"GameManager"
 			],
@@ -364,46 +372,6 @@
 	"buffers":
 	[
 		{
-			"file": "app/index.html",
-			"settings":
-			{
-				"buffer_size": 539,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/scripts/grid/grid.js",
-			"settings":
-			{
-				"buffer_size": 262,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/scripts/grid/grid.html",
-			"settings":
-			{
-				"buffer_size": 304,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/scripts/grid/grid_directive.js",
-			"settings":
-			{
-				"buffer_size": 289,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/scripts/grid/tile_directive.js",
-			"settings":
-			{
-				"buffer_size": 174,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "app/scripts/grid/tile.html",
 			"settings":
 			{
@@ -412,19 +380,19 @@
 			}
 		},
 		{
-			"file": "app/scripts/app.js",
+			"file": "app/scripts/grid/grid.js",
 			"settings":
 			{
-				"buffer_size": 301,
-				"line_ending": "Unix"
+				"buffer_size": 715,
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/styles/main.scss",
+			"file": "test/unit/grid_spec.js",
 			"settings":
 			{
-				"buffer_size": 3918,
-				"line_ending": "Unix"
+				"buffer_size": 723,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -476,10 +444,17 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/index.html",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/views/main.html",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/app.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/game/game.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/tile.html",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/tile_directive.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/styles/main.scss",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid_directive.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid.html",
+		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/index.html",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/views/main.html",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/unit/game_spec.js",
 		"/C/Users/Michał/Desktop/Bezpieczeństwo i ochrona danych/linki.txt",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/karma.conf.js",
@@ -490,7 +465,6 @@
 		"/C/Users/Michał/Desktop/Apibara/HTML/index.html",
 		"/C/Users/Michał/Desktop/Apibara/HTML/sass/style.scss",
 		"/C/Users/Michał/Desktop/Apibara/HTML/js/script.js",
-		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
 		"/G/BpO/eX/The Killing S01 SWESUB HDTV  XviD - Starchild666/The Killing S01E12.txt",
 		"/C/Users/Michał/Desktop/header.php",
 		"/G/BpO/eX/True.Detective.S02E01.PROPER.720p.HDTV.x264-KILLERS/True.Detective.S02E01.PROPER.720p.HDTV.x264-KiLLERS[napisy24.net].txt",
@@ -597,13 +571,7 @@
 		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/author.php",
 		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/footer.php",
 		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/jqBootstrapValidation.js",
-		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/js/main.js",
-		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/classie.js",
-		"/G/Program Files (x86)/xampp/php/php.ini",
-		"/G/XAMPP/apache/conf/httpd.conf",
-		"/G/XAMPP/phpMyAdmin/index.php",
-		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/css/agency.css",
-		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/css/style2.css"
+		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/js/main.js"
 	],
 	"find":
 	{
@@ -767,156 +735,11 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/index.html",
-					"settings":
-					{
-						"buffer_size": 539,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								389,
-								389
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/scripts/grid/grid.js",
-					"settings":
-					{
-						"buffer_size": 262,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								240,
-								240
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "app/scripts/grid/grid.html",
-					"settings":
-					{
-						"buffer_size": 304,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								105,
-								105
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/scripts/grid/grid_directive.js",
-					"settings":
-					{
-						"buffer_size": 289,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								289,
-								289
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/scripts/grid/tile_directive.js",
-					"settings":
-					{
-						"buffer_size": 174,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								174,
-								174
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "app/scripts/grid/tile.html",
 					"settings":
 					{
@@ -934,6 +757,8 @@
 						"settings":
 						{
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/AngularJS/AngularJS.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -943,19 +768,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/scripts/app.js",
+					"buffer": 1,
+					"file": "app/scripts/grid/grid.js",
 					"settings":
 					{
-						"buffer_size": 301,
+						"buffer_size": 715,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								2,
+								2
 							]
 						],
 						"settings":
@@ -972,32 +797,28 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "app/styles/main.scss",
+					"buffer": 2,
+					"file": "test/unit/grid_spec.js",
 					"settings":
 					{
-						"buffer_size": 3918,
+						"buffer_size": 723,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2521,
-								2521
+								123,
+								123
 							]
 						],
 						"settings":
 						{
 							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/SCSS/SCSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1199.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
