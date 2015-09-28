@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"in",
+				"inject"
+			],
+			[
+				"ti",
+				"tileModel"
+			],
+			[
+				"grid",
+				"gridService"
+			],
+			[
+				"nu",
+				"nullArr"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
 				"Grid",
 				"GridService"
 			],
@@ -138,10 +158,6 @@
 			[
 				"mo",
 				"module"
-			],
-			[
-				"for",
-				"form	Tag"
 			],
 			[
 				"p",
@@ -288,10 +304,6 @@
 				"navbar"
 			],
 			[
-				"in",
-				"input	Tag"
-			],
-			[
 				"main-",
 				"main-panel-button2"
 			],
@@ -383,7 +395,7 @@
 			"file": "app/scripts/grid/grid.js",
 			"settings":
 			{
-				"buffer_size": 715,
+				"buffer_size": 1914,
 				"line_ending": "Windows"
 			}
 		},
@@ -391,8 +403,16 @@
 			"file": "test/unit/grid_spec.js",
 			"settings":
 			{
-				"buffer_size": 723,
+				"buffer_size": 1873,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test/karma.conf.js",
+			"settings":
+			{
+				"buffer_size": 2096,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -735,7 +755,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -772,15 +792,15 @@
 					"file": "app/scripts/grid/grid.js",
 					"settings":
 					{
-						"buffer_size": 715,
+						"buffer_size": 1914,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2,
-								2
+								580,
+								589
 							]
 						],
 						"settings":
@@ -788,10 +808,11 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 12.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -801,21 +822,56 @@
 					"file": "test/unit/grid_spec.js",
 					"settings":
 					{
-						"buffer_size": 723,
+						"buffer_size": 1873,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								123,
-								123
+								235,
+								207
 							]
 						],
 						"settings":
 						{
 							"incomplete_sync": null,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "test/karma.conf.js",
+					"settings":
+					{
+						"buffer_size": 2096,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								629,
+								629
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
