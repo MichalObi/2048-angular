@@ -42,11 +42,11 @@ angular.module('Grid', [])
 
 	    // Initialize our tile array
 	    // with a bunch of null objects
-	    this.forEach(function(x,y) {
-	      self.setCellAt({x:x,y:y}, null);
-	    });
-	  }; 
-	  
+    this.forEach(function(x,y) {
+      self.setCellAt({x:x,y:y}, null);
+    });
+  };
+
 	this.forEach = function(cb) {
 	  var totalSize = this.size * this.size;
 	  for (var i = 0; i < totalSize; i++) {

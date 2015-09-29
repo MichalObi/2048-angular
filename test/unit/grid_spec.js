@@ -31,13 +31,13 @@ describe('Grid', function() {
 
   describe('GridService', function() {
 
-    var gridService, tileModel;
+    var tileModel, gridService;
 
-    // inject gridService and tileModel (object) to make some sweet test
+    // // inject gridService and tileModel (object) to make some sweet test
 
-    beforeEach(inject(function(GridService, TileModel) {
-      gridService = GridService;
+    beforeEach(inject(function(TileModel, GridService) {
       tileModel = TileModel;
+      gridService = GridService;
     }));
 
     describe('.buildEmptyGameBoard', function() {
@@ -48,7 +48,7 @@ describe('Grid', function() {
         for (var x = 0; x < 16; x++) {
           nullArr.push(null);
         }
-      });
+      })
 
       it('should clear out the grid array with nulls', function() {
         var grid = [];
@@ -60,16 +60,16 @@ describe('Grid', function() {
         expect(gridService.grid).toEqual(nullArr);
       });
     
-    //   it('should clear out the tiles array with nulls', function() {
-    //     var tiles = [];
-    //     for (var x = 0; x < 16; x++) {
-    //       tiles.push(x);
-    //     }
-    //     gridService.tiles = tiles;
-    //     gridService.buildEmptyGameBoard();
-    //     expect(gridService.tiles).toEqual(nullArr);
-    //   });
-    });
+      // it('should clear out the tiles array with nulls', function() {
+      //   var tiles = [];
+      //   for (var x = 0; x < 16; x++) {
+      //     tiles.push(x);
+      //   }
+      //   gridService.tiles = tiles;
+      //   gridService.buildEmptyGameBoard();
+      //   expect(gridService.tiles).toEqual(nullArr);
+      // });
 
+    });
   });
 });
