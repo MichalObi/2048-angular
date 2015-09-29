@@ -384,18 +384,10 @@
 	"buffers":
 	[
 		{
-			"file": "app/scripts/grid/tile.html",
-			"settings":
-			{
-				"buffer_size": 167,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "app/scripts/grid/grid.js",
 			"settings":
 			{
-				"buffer_size": 1914,
+				"buffer_size": 1906,
 				"line_ending": "Windows"
 			}
 		},
@@ -403,16 +395,8 @@
 			"file": "test/unit/grid_spec.js",
 			"settings":
 			{
-				"buffer_size": 1873,
+				"buffer_size": 1875,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "test/karma.conf.js",
-			"settings":
-			{
-				"buffer_size": 2096,
-				"line_ending": "Unix"
 			}
 		}
 	],
@@ -464,23 +448,24 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/app.js",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/game/game.js",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/tile.html",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/unit/game_spec.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/tile_directive.js",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/styles/main.scss",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid_directive.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/tile.html",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/app.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/unit/grid_spec.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/spec/controllers/main.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/karma.conf.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/game/game.js",
+		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/styles/main.scss",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid.html",
 		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/index.html",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/views/main.html",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/unit/game_spec.js",
 		"/C/Users/Michał/Desktop/Bezpieczeństwo i ochrona danych/linki.txt",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/karma.conf.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid_directive",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/unit/game_spec.spec.js",
-		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/test/spec/controllers/main.js",
 		"/G/Backup/Apibara/HTML/js/gmap.js",
 		"/C/Users/Michał/Desktop/Apibara/HTML/index.html",
 		"/C/Users/Michał/Desktop/Apibara/HTML/sass/style.scss",
@@ -590,8 +575,7 @@
 		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/front-page.php",
 		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/author.php",
 		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/footer.php",
-		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/jqBootstrapValidation.js",
-		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/js/main.js"
+		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/js/jqBootstrapValidation.js"
 	],
 	"find":
 	{
@@ -609,6 +593,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"position",
 			"sympatia",
 			"strefa",
 			"17px",
@@ -735,8 +720,7 @@
 			"THMJS",
 			"wp_",
 			"input",
-			"listen",
-			"menu"
+			"listen"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -755,82 +739,23 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/scripts/grid/tile.html",
-					"settings":
-					{
-						"buffer_size": 167,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								167,
-								167
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "app/scripts/grid/grid.js",
 					"settings":
 					{
-						"buffer_size": 1914,
+						"buffer_size": 1906,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								580,
-								589
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 12.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "test/unit/grid_spec.js",
-					"settings":
-					{
-						"buffer_size": 1873,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								235,
-								207
+								1055,
+								1055
 							]
 						],
 						"settings":
@@ -843,25 +768,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 239.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "test/karma.conf.js",
+					"buffer": 1,
+					"file": "test/unit/grid_spec.js",
 					"settings":
 					{
-						"buffer_size": 2096,
+						"buffer_size": 1875,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								629,
-								629
+								1841,
+								1841
 							]
 						],
 						"settings":
@@ -870,11 +795,11 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 117.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
