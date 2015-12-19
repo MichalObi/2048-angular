@@ -1,12 +1,8 @@
-/*
-* Grid Module
-*
-* Description: Grid directive to provide grid.html template
-*
-*/
-angular.module('Grid', [])
-.directive('grid', function(){
 
+'use strict';
+
+angular.module('Grid')
+.directive('grid', function(){
 	return {
 		restrict: 'A',
 		require: 'ngModel',
@@ -15,5 +11,4 @@ angular.module('Grid', [])
 		},
 		templateUrl: 'scripts/grid/grid.html'
 	};
-
 });
