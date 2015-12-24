@@ -27,26 +27,23 @@
 
     <div id="win" ng-if="ctrl.game.win" class="row game-overlay">
       You win!
-
       <div class="lower">
         <a class="retry-button" ng-click='ctrl.newGame()'>Try again</a>
       </div>
     </div>
   </div>
 
-  <p class="game-explanation">
-    <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
-  </p>
-  <hr>
+  <div id="HighScore-table">
+    <ul>
+      <li ng-repeat="obj in scores track by $index">{{$index}}) UserID: {{obj.id}} Score: <strong>{{ obj.get('HighScore') }}</strong></li>
+    </ul>
+  </div>
 
-  <p>
-    <strong class="important">NOTE:</strong> This game was written using AngularJS.
-  </p>
+  <div>
+    <p>
+      Reinterpretated by <a href="https://github.com/MichalObi">MichalObi</a> based on 2048 by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> and tutorial on <a href="http://www.ng-newsletter.com/">ng newsletter</a>.</a>
+    </p>
+  </div>
 
-  <hr>
-
-  <p>
-    Created by <a href="http://fullstackedu.com">Fullstack.io</a> based on 2048 by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
-  </p>
 
 </div>

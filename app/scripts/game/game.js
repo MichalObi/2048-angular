@@ -14,24 +14,30 @@ angular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])
 
 	// initialize parse 
 	this.parsedbInitialised = function() {
-	  Parsedbmanager.parseInit();
-	  $log.log('Parse initialized');
-	}
+      Parsedbmanager.parseInit();
+	};
 	this.parsedbInitialised();
+
+	this.getFromParseDb = function() {
+		return Parsedbmanager.getParsedb();
+	};
+
+	this.getParsedbHighScore = function () {
+		Parsedbmanager.getParsedb();
+	};
 
     // need to explicite declaration
 	this.grid = GridService.grid;
 	this.tiles = GridService.tiles;
 	this.gameSize = GridService.getSize();
-
 	this.winningValue = 2048;
 
 	this.reinit = function() {
 		this.gameOver = false;
 		this.win = false;
 		this.currentScore = 0;
-		this.highScore = this.getHighScore(); // to fix this later
-	}
+		this.highScore = this.getHighScore();
+	};
 	this.reinit();
 
 	// Create a new game
@@ -120,7 +126,7 @@ angular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])
 
 	      if (self.win || !self.movesAvailable()) {
 	        	self.gameOver = true;
-	        	Parsedbmanager.updateParsedb(self.currentScore);
+	        	Parsedbmanager.setParsedb(self.currentScore);
 	        }
 	      }
 		};
@@ -141,5 +147,4 @@ angular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])
 	      $cookieStore.put('highScore', newScore);
 	    }
 	};
-
 });

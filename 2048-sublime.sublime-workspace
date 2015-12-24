@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"ex",
+				"extend"
+			],
+			[
 				"new",
 				"newPosition"
 			],
@@ -416,47 +420,67 @@
 	"buffers":
 	[
 		{
+			"contents": "'use strict';\n\nangular\n.module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies'])\n.config(function(GridServiceProvider) {\n  GridServiceProvider.setSize(4);\n})\n.controller('GameController', function(GameManager, KeyboardService, $scope) {\n\n  this.game = GameManager;\n\n  this.newGame = function() {\n    // get the best scores\n    var promise = this.game.getFromParseDb();\n    // pass scores to $scope, if you have one\n    promise.then(function(scores) {\n      $scope.scores = scores;\n    });\n\n    KeyboardService.init();\n    this.game.newGame();\n    this.startGame();\n  };\n\n  this.startGame = function() {\n    var self = this;\n    KeyboardService.on(function(key) {\n      self.game.move(key);\n    });\n  };\n\n  this.newGame();\n});\n",
 			"file": "app/scripts/app.js",
+			"file_size": 705,
+			"file_write_time": 130952634782608447,
 			"settings":
 			{
-				"buffer_size": 704,
+				"buffer_size": 756,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "/*\n* Game Module\n*\n* Description: Main Game Module\n*/\n'use strict';\n\nangular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])\n.service('GameManager', function(GridService, Parsedbmanager, $q, $timeout, $cookieStore, $log){\n\n	this.getHighScore = function() {\n	  return parseInt($cookieStore.get('highScore')) || 0;\n	};\n\n	// initialize parse \n	this.parsedbInitialised = function() {\n      Parsedbmanager.parseInit();\n	};\n	this.parsedbInitialised();\n\n	this.getFromParseDb = function() {\n		return Parsedbmanager.getParsedb();\n	};\n\n    // need to explicite declaration\n	this.grid = GridService.grid;\n	this.tiles = GridService.tiles;\n	this.gameSize = GridService.getSize();\n	this.winningValue = 2048;\n\n	this.reinit = function() {\n		this.gameOver = false;\n		this.win = false;\n		this.currentScore = 0;\n		this.highScore = this.getHighScore();\n	};\n	this.reinit();\n\n	// Create a new game\n	this.newGame = function() {\n    	// main method for start new game\n		GridService.buildEmptyGameBoard();\n    	GridService.buildStartingPosition();\n    	this.reinit();\n	};\n\n	// Handle the move anction - key from KeyboardService.on\n	this.move = function(key) {\n\n    // reference to GameManager\n    var self = this;\n    var f = function() {\n    	// if win no move left\n		if (self.win) { return false; }\n		//all possible movements coord\n		var positions = GridService.traversalDirections(key);\n    	var hasMoved = false;\n    	var hasWon = false;\n\n    	GridService.prepareTiles();\n\n    	positions.x.forEach(function(x){\n			positions.y.forEach(function(y) {\n				// for every position save orginal coord\n				var orginalPosition = {x:x, y:y};\n				// get the tile (coord + value) of curent tile on board\n				var tile = GridService.getCellAt(orginalPosition);\n	\n				// if we found tile \n				if (tile) {\n					// GridService return info about coord of next position and about tile to merge (if exist)\n					var cell = GridService.calculateNextPosition(tile, key),\n						  next = cell.next;\n\n					if (next && \n						next.value === tile.value && \n						!next.merged) {\n						\n						/* Do the merge */ \n						var newValue = tile.value * 2;\n\n						// create new merged tile\n						var merged = GridService.newTile(tile, newValue);\n\n						//merged property - prevent merging merged tile (?)\n						merged.merged = [tile, cell.next];\n\n						//insert tile with newValue\n						GridService.insertTile(merged);\n						//remove old tile, that has to be merged\n						GridService.removeTile(tile);\n						// move new Tile to old Tile position\n						GridService.moveTile(merged, next);\n\n						// update current score\n						self.updateScore(self.currentScore + cell.next.value);\n\n						//check if winind\n						if (merged.value >= self.winningValue) {\n							hasWon = true;\n						} \n            			hasMoved = true;\n					} \n					else {\n            			// handle moving tile\n            			GridService.moveTile(tile, cell.newPosition);\n          			}\n\n		          if (!GridService.samePositions(orginalPosition,cell.newPosition)) {\n		            hasMoved = true;\n		          }\n				}\n			});\n		});\n\n	    if (hasWon && !self.win) {\n	      self.win = true;\n	    }\n\n	    if (hasMoved) {\n	      GridService.randomlyInsertNewTile();\n\n	      if (self.win || !self.movesAvailable()) {\n	        	self.gameOver = true;\n	        	Parsedbmanager.setParsedb(self.currentScore);\n	        }\n	      }\n		};\n		return $q.when(f());\n	};\n\n\n	// Are there moves left ? - the end of the game \n 	this.movesAvailable = function() {\n 	 	return GridService.anyCellsAvailable() || GridService.tileMatchesAvailable();\n 	};\n\n 	// Update the score\n	this.updateScore = function(newScore) {\n		this.currentScore = newScore;\n	    if(this.currentScore > this.getHighScore()) {\n	      this.highScore = newScore;\n	      $cookieStore.put('highScore', newScore);\n	    }\n	};\n});\n",
+			"file": "app/scripts/game/game.js",
+			"file_size": 3854,
+			"file_write_time": 130952675277655665,
+			"settings":
+			{
+				"buffer_size": 3776,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/scripts/parseDB/parsedb.js",
+			"settings":
+			{
+				"buffer_size": 1937,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "GFpeb.pl obi123 asdf\n\nobi123 asdf gryonline\n\nNeVrea obi123/asdf filmweb\n\npolishleech obi obiloni123\n\nobix92 obi123gie\n\nefqnfv8o\n\nfsawfj6u\n\nNevrea obix123 gameburner\n\nNeVrea konicka l2guru\n\nNeVrea efqnfv8o aion\n\nNeVreaPL fsawfj6u facebook tweeter\n\nobi123 asdf gryonline\n\nbdrpgclubx15@gmail.com pietrzak123 nuta123 <--- facebooke\n\nl2 pass BD\n\nqooeta6j bdrpgclub\n\nspoilx15 z4uuse3a\n \nmicha³.obielecki  k6uYE9\n\nnevrea obi123\n\nNeVrea efqnfv8o filmweb\n\nndwz123@gmail.com fsawfj6u\n\nPiqTan\nBarka\nnuta123\n\nconnect 69.39.232.11:28960\n\ngg: 8869802 pilot321\n\nNeVrea pajac123 czytanie\n\nNeVrea steamobi2323 steam (przyjazna nazwa dla przegladarki - NeV)\n\ninsomnia forum NeVrea pajace123\n\nkonica nuta369 l2insomnia\n\npajace123 ndwz123@gmail.com wow\n\nNeVrea pener23 ps3site.\n\n\n \nNeVrePL efqnfv8o ps3\n\nNeVrePL konicka gametrade\n\nEa account ndwz123@gmail.com konicka123\n\nkonicka369 \npietrzak123 passy l2 official i do gry\n\npytania: city born :poznan color of car brown\n\nNeVrea pajac123 mmorgp.com\n\npajace123 i email 4 games (l2)\n\n\nNeV obi123 klan legalize\n\nNeVrea obix123 alteriwnet\n\nObielecki kojot32 techland Akademia twórców gier\n\n\nnevrea peqsebep x-fire\n\nNeV pajacykol ESL\n\nNeVrea pawlinho gog ?\n\nNeVrePL obi123 Nail'd\n\nobi123 koniarz gastronauci\n\nNeVrea kolejorz12\n\nakademia daytraidingu obi123 baraban\n\nNeV b06f257 gragie³dowa\n\nNeVrePL bajcik15 raptr\n\nssijmijajca chuj12\n\nNeVrea pijaczyna ateista.pl\n\n\nMichalObielecki@gmail.com pracabaca13\n\nshadyrecords bajak15\n\ngumtree pracownikroku\n\nfinta.pl NeV wymianabookow\n\n\nwsb forum Micha³Obi. Bankowa1421\nNeVrePL blabla124 ultratajneforum\n\nWSB pz67540 wsbobielecki2323\n\ncrunchinkkoala NeVrea puchatykoala\n\n\nMicrosoft acc\n\nMicheal Obix ndwz123@gmail.com microsoftaccobi123\n\nmuve.pl muvesklep2345\n\nnowe passy lineage 2 ndwz123@gmail.com chujowizna4466 Obiblabla januar 3 1990 pet name: kola city born: poznan\n\nwsb2 forum wsb Obix678\nGyerosaski\n\nevernote  Obix92 pleonazm113\n\nfastdeal ndwz123 peroni12\n\ngoldenline pracagolden67\n\nrapgenius NeVrea flognog\n\n\n\nmichalobielecki@gmail.com sk7G1MDa4e videokurs programowanie\n\ncinemamovies Obix123 belzebub12\n\n4programmers NeVrea programistaroku2013\n\nplus500 forex bakugan76\n\nalkopoligamia  Obi123 alkoobi\n\n\nWordpress nevrea wordobipress0129 grynaparkiecie\n\nforum videokursy.pl NeVrea ndwz123@gmail.com programistaroku2013\n\nupload hotfile.com Uploader2013 uploader20131\n\nNeoGAF NeVrea penola17\n\nevenea.pl balboa19\n\ninstagram nevrea focieobiego87\n\nlapek Arbuz1110 komp-Micha³a\n\npocket 1czytelnikroku\n\navast obiwirusowiec92\n\nlubimyczytaæ obiczytelnik33\n\nmobilet kanarywon6 mobilet\n\nobielecki@icpnet.pl 81d21a mail\n\nkonto microsoft papryczka13 pytanie: nauczyciel - Wiaderna\n\neboa inea michalobielecki@gmail.com kablowaobiego10\n\nevernote ndwz123@gmail.com zbieraczinformacji\n\norgin ndwz123@gmail.com OrginObi123 \n\nl2 innova l2obi123\n\norange online telefon mamy: MamaObielecka MamaObielecka123\n\ngroupon zjadaczpromocyjny\n\ntorrenty org tomik666 sonyericson \n\nlinkedin pracownikroku88\n\n\nLinux VM wizard full name: michal123 user name: michal123 pass: linux123\n\nsklep kolonialny cejrowski kolonialnyobi\n\ngeneralassemb dash html/css obirobihtmla\n\npath of excille nowediabolo123\n\nlol alelol123 NeVrea (michal.obielecki@gmail.com)\n\nWarface NeVrea wojakobi123\n\nMrgreen kasyno kasyno1234\n\nDropBox - szko³a WSB\nlogin: wsbinfa2012@gmail.com\nhas³o: asdasdasd\n\nurbancity urbanobi blabla123\n\nelite ndwz123@gmail.com eliteobi12\n\nhttp://www.meetup.com/hive61/events/144464212/?fromEmail=144464212&rv=me2 hive obi123\n\nhttp://appser.pl NeVrea aplikacja123\n\ncodeacademy NeVrea obicoderroku\n\nubuntu forum NeVrea ubuntulinux123\n\nWunderlist michalobielecki@gmail.com nowycrm123 Micha³O.\n\nleancanvas ndwz123@gmail.com biznesplan1234\n\nankietka ndwz123@gmail.com	ankiety2323\n\nblog pelnageba.worpress.com michadmin1 michalobielecki@gmail.com\n\nUniwersytet Przyrodniczy - biuro karier michalobielecki@gmail.com obi123\n\nCupSell obi123 koszulkowiec123\n\ndropbox  michal.obielecki dropobiego2323\n\ngarsoniera Abradab23 ndwzdziwuszki12\n\nbrowar123 WSBGrupaXXX dropbox + gmail grupy\n\nndwz123@gmail.com targiobi123\n\ncba.pl hosting\n\nui-kit-test.y0.pl\n\ntestowastronica2324\n\nftp do cba.pl\n\nui-kit-test\n\ntestowastronica2324\n\nfriko.pl \n	\nhostning friko.pl hsłow obixon12\n\nMichealo Obini obibeatmaker345\n\ngithub\nobix123\nndwz123@gmail.com\nMichalObi\n\n\nMichalObi obix123\nobielecki.com.pl\nhome.pl login: \n\nhasło Kevorianka12\n\ncba.pl obielecki.com.pl strona domowa\n\nstronadomowaadmin1\n\nadobe photoshop acc\n\nndwz123@gmail.com malarzobi123 Micheal Obini\n\nsoundcloud muzykiobi123 ndwz123@gmail.com\n\ninfopraca - linkedin\n\nnorton antywirus ndwz123@gmail.com obix123\n\nuczestnicy.pl michalobielecki pracabaca13\n\ninCLICK d68ea8a9f1\n\nInclick@inclick.pl\n5Andk@mfu9w*D\n\nobix1212\nndwz123@gmail.com\n\ntentego skrypt Obi Admin1\n\nObi obix123\n\ngamedot \n\nMichal_Obielecki\ndotobicompl2\n\nhyperreal 6TCZSVSNBMMMM ndwz123@gmail.com NeV\n\naktywny ndwz123 aktywnymichal123\n\ngmail kanał yt NeV proproducent123 nevrproduction@gmail.com\n\nkotor NeVreaPL Obijedi123\n\nblog nevrproduction nevproducentroku123\n\nndwz123@gmail.com obitopatrician patrician iV\n\nuplay ndwz123@gmail.com uplayobix123\n\nziemowit3385 <-- skype\n\nanalfabeta2323 skype ndwz123@gmail.com\n\nstackoverflow ndwz123@gmail.com\n\ncode school obikoderemroku ndwz123@gmail.com\n\nsleepyeye.pl nazwa.pl login: vato-shop hasło: Ziemowit33#\n\ncba.pl sleepyeye.pl domena nazwa konta: sleepyeyecba hasło notsosleepy123\n\nMichealObi sleepytaskmanager123 todoist.com\n\nndwz123@gmail.com singielfuck11 strefasingla (chyba)\n\nbaza danych sleepeeye.pl\nuser: adminobi123 hasło:obi123admin\n\nmicheal obiwpadmin123$ wp sleepyeye\n\nkonto ziemowita: \n\npz67540 Wsbobielecki2324\n\nWPEXPLORER Micheal123 konicka123\n\nWordpress meni localhost Meni admini123 ->strona apibara.pl i virtualnemenu\n\ngg ndwz123@gmail.com ggobiego123\n\nhostinger hosting apibara -> michalobielecki@gmail.com\n\nxQ3kyx5Jjnp \n\nvirturalnemenu.pl -> ReWeGW2j0v wordrpess michal ReWeGW2j0v\n\nbazad danych nazwa: wp użytkownik admin KruReBh92U\n\nhosting ftp login: admin hasło: admin1\n\nhosting ftp login: admin hasło obiapibara123 apibara.pl\n\nmysql baza apibara.pl WP root123\n\nhostinger hosting saubercat-development -->ndwz123@gmail.com\n\nsaubercat localhost wordpress baza danych:wp_gra user: cat pass: devadmin123\n\nsaubercat baza danych user: saubercat pass: saubercatdev123\n\nndwz123@gmail.com Obigryrobi123\n\nlatex www.sharelatex.com obiwlatexie\n\ncinemamovies login: ndwz123 hasło: obixcinema123\n\nmichal.apibara@gmail.com virtualo123\n\ntrello michal.apibara@gmail.com \n\nvirtualnemenu konto ftp dla sublima user: admin hasło: obiapibara123\n\ngmail/drop - inżynierka inzynierka.wsb@gmail.com 2browary\n\nkomkarta peka michal.obielecki@gmail.com Komkartaobi123\n\nCMS skillfeed.com ndwz123@gmail.com cmsnazaliczenie Michael\n\nEuroAGD michalobielecki@gmail.com obidzikigon123\n\n7c9557e9 sympatia\n\nbattlenet heartstone michal.obielecki@gmail.com 123pajaceheartstony Micheal Obi 1 samochód - Maluch (pytanie pomocnicze) BattleTag NevrePL\n\n\n\n\nloteria paragonowa numer zgłoszenia: AW6NXT7U02F\n\napibara.pl Kevorianka12 home.pl\n\nbitbucket inżynierka Michał Obielecki MichalObielecki bitbucketobix123 teamID wsbinynierka team name WSB - Inżynierka\n\nndwz123@gmail.com obil2again123 lineage 2 936581 pin l2\n\nbitbucket ndwz123@gmail.com obibitbucket123\n\nndwz123@gmail.com Michal92 base64obipl base64obipl podrywaczek.pl\n\nmichal.obielecki@gmail.com ObixParse123 ParseTestApp\n\nkopia zapasowa plików telefon - obi123 \n\n",
+			"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+			"file_size": 7784,
+			"file_write_time": 130953347085617493,
+			"settings":
+			{
+				"buffer_size": 7379,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "app/index.html",
 			"settings":
 			{
-				"buffer_size": 940,
+				"buffer_size": 5360,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/scripts/game/game.js",
+			"file": "app/keys.php",
 			"settings":
 			{
-				"buffer_size": 2542,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/scripts/grid/grid.js",
-			"settings":
-			{
-				"buffer_size": 6031,
-				"line_ending": "Unix"
+				"buffer_size": 244,
+				"line_ending": "Windows"
 			}
 		}
 	],
 	"build_system": "",
-	"build_system_choices":
-	[
-	],
-	"build_varint": "",
 	"command_palette":
 	{
 		"height": 354.0,
-		"last_filter": "packa",
 		"selected_items":
 		[
 			[
@@ -504,23 +528,7 @@
 	},
 	"console":
 	{
-		"height": 153.0,
-		"history":
-		[
-			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
-			"help",
-			"clear",
-			"cls",
-			"$git --help",
-			"chromium",
-			"-google-chrome",
-			"google-chrome",
-			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())",
-			"-help",
-			"help",
-			"--help",
-			"dir"
-		]
+		"height": 153.0
 	},
 	"distraction_free":
 	{
@@ -531,14 +539,14 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/D/www/2048-app",
-		"/D/www/2048-app/app",
-		"/D/www/2048-app/app/scripts"
-	],
 	"file_history":
 	[
+		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/grid/grid.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/app.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/parseDB/parsedb.js",
+		"/C/Users/Michał/Desktop/Drop-backup/menu.txt",
+		"/C/Users/Michał/Downloads/parse-js-blank/sample/parse-js-blank/index.html",
 		"/C/Users/Kamil/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Kamil/AppData/Roaming/Sublime Text 3/Packages/User/HTML.sublime-settings",
 		"/C/Users/Kamil/AppData/Roaming/Sublime Text 3/Packages/User/Distraction Free.sublime-settings",
@@ -570,7 +578,6 @@
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/game/game.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/styles/main.scss",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid.html",
-		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/scripts/grid/grid.js",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/index.html",
 		"/C/Users/Michał/Desktop/2048 Angular/2048-angular/app/views/main.html",
@@ -661,12 +668,7 @@
 		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/03/sass/03_mixins.scss",
 		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/02/sass/02_zmienne.scss",
 		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/sass/01_zagniezdzone_selektory.scss",
-		"/C/test/sass/test.scss",
-		"/C/Users/Michał/Desktop/test_sass/sass/style.scss",
-		"/C/Users/Michał/Desktop/test_sass/css/tesrt.css",
-		"/C/Users/Michał/Desktop/test_sass/css/style.css",
-		"/C/Users/Michał/Desktop/test_sass/index.html",
-		"/C/Users/Michał/Desktop/test_sass/style.css"
+		"/C/test/sass/test.scss"
 	],
 	"find":
 	{
@@ -674,7 +676,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
 		]
@@ -684,6 +686,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"getFromParseDb",
+			"getParsedbHighScore",
+			"set",
+			"git",
+			"log",
+			"currentScore",
+			"updateS",
+			"newScore",
+			"buildEmptyGameBoard",
+			"setStartingTiles",
+			"console",
+			"\n",
+			"parse",
 			"prototype",
 			"moveTile",
 			"setCellAt",
@@ -798,20 +813,7 @@
 			"a:link",
 			" .menu-primary-items a:visited",
 			".menu-unset > ul a:link, .menu-unset > ul a:visited, .menu-primary-items a:link, .menu-primary-items a:visited",
-			"logo",
-			"border-top",
-			";\n",
-			"header",
-			"main",
-			"header",
-			"body",
-			"carousel-main",
-			"#carousel-main",
-			"#carousel-main .carousel-caption h2",
-			"apibara",
-			"obielecki",
-			"apibara",
-			"web"
+			"logo"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -830,24 +832,23 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
 					"file": "app/scripts/app.js",
-					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 704,
+						"buffer_size": 756,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								222,
-								222
+								410,
+								410
 							]
 						],
 						"settings":
@@ -863,24 +864,112 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/index.html",
-					"semi_transient": false,
+					"file": "app/scripts/game/game.js",
 					"settings":
 					{
-						"buffer_size": 940,
+						"buffer_size": 3776,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								922,
-								922
+								526,
+								526
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 42.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/scripts/parseDB/parsedb.js",
+					"settings":
+					{
+						"buffer_size": 1937,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1937
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+					"settings":
+					{
+						"buffer_size": 7379,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7368,
+								7368
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 5703.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/index.html",
+					"settings":
+					{
+						"buffer_size": 5360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2183,
+								2183
 							]
 						],
 						"settings":
@@ -893,27 +982,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 78.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/scripts/game/game.js",
-					"semi_transient": false,
+					"buffer": 5,
+					"file": "app/keys.php",
 					"settings":
 					{
-						"buffer_size": 2542,
+						"buffer_size": 244,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								149,
-								149
+								0,
+								0
 							]
 						],
 						"settings":
@@ -921,47 +1008,12 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/scripts/grid/grid.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6031,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								636,
-								636
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1026.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1006,8 +1058,6 @@
 	{
 		"height": 124.0
 	},
-	"pinned_build_system": "",
-	"project": "2048-sublime.sublime-project",
 	"replace":
 	{
 		"height": 42.0
@@ -1016,7 +1066,6 @@
 	"select_file":
 	{
 		"height": 0.0,
-		"last_filter": "",
 		"selected_items":
 		[
 			[
@@ -1029,32 +1078,15 @@
 	"select_project":
 	{
 		"height": 500.0,
-		"last_filter": "",
 		"selected_items":
 		[
 		],
 		"width": 380.0
-	},
-	"select_symbol":
-	{
-		"height": 0.0,
-		"last_filter": "",
-		"selected_items":
-		[
-		],
-		"width": 0.0
-	},
-	"selected_group": 0,
-	"settings":
-	{
 	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 225.0,
-	"status_bar_visible": true,
-	"template_settings":
-	{
-	}
+	"status_bar_visible": true
 }
