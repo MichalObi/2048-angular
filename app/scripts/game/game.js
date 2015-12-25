@@ -22,10 +22,6 @@ angular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])
 		return Parsedbmanager.getParsedb();
 	};
 
-	this.getParsedbHighScore = function () {
-		Parsedbmanager.getParsedb();
-	};
-
     // need to explicite declaration
 	this.grid = GridService.grid;
 	this.tiles = GridService.tiles;

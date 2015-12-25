@@ -10,11 +10,13 @@ angular
   this.game = GameManager;
 
   this.newGame = function() {
-    // the best scores
+    // get the best scores
     var promise = this.game.getFromParseDb();
+    // pass scores to $scope, if you have one
     promise.then(function(scores) {
       $scope.scores = scores;
     });
+
     KeyboardService.init();
     this.game.newGame();
     this.startGame();

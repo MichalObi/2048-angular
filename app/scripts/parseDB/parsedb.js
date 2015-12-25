@@ -16,7 +16,7 @@ angular.module('Parsedb', [])
        //    var keys = response.data;
        //    Parse.initialize(keys.appKey, keys.jsKey);
        //  });
-        Parse.initialize('pGZExMJgbR0vy3EvyusNzTrybKP8rvRLQ7vQe77Y', 'ZXj4WmTxTHCWD0xD4oURQtnEcGelQCbCOjsYOi05');
+        Parse.initialize('pGZExMJgbR0vy3EvyusNzTrybKP8rvRLQ7vQe77Y', 'ZXj4WmTxTHCWD0xD4oURQtnEcGelQCbCOjsYOi05'); 
     };
 
     this.setParsedb = function(newScore) {
@@ -26,10 +26,10 @@ angular.module('Parsedb', [])
       parseHighScore.save(null, {
         success: function (parseHighScore) {
           // protect from change saved obj 
-          var acl = new Parse.ACL();
-          acl.setPublicReadAccess(true);
-          acl.setPublicWriteAccess(false);
-          parseHighScore.setACL(acl); 
+          // var acl = new Parse.ACL();
+          // acl.setPublicReadAccess(false);
+          // acl.setPublicWriteAccess(false);
+          // parseHighScore.setACL(acl); 
           console.log('New object created with objectId: ' + parseHighScore.id);
           return parseHighScore.save();
         },
