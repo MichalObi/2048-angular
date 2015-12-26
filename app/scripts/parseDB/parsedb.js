@@ -31,7 +31,7 @@ angular.module('Parsedb', [])
           // acl.setPublicWriteAccess(false);
           // parseHighScore.setACL(acl); 
           console.log('New object created with objectId: ' + parseHighScore.id);
-          return parseHighScore.save();
+          // return parseHighScore.save();
         },
         error: function (parseHighScore, error) {
           console.log('Failed to create new object, with error code: ' + error.message);

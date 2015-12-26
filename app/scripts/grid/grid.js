@@ -66,6 +66,7 @@ angular.module('Grid', [])
 .provider('GridService', function() {
   this.size = 4; // Default size
   this.startingTileNumber = 2; // default starting tiles
+  this.startingTileVal = 2; // value of inserted tile;
 
   this.setSize = function(sz) {
     this.size = sz ? sz : 0; // if 'sz' not 0 - set size to sz
@@ -74,6 +75,16 @@ angular.module('Grid', [])
   this.setStartingTiles = function(num) {
     this.startingTileNumber = num;
   };
+
+  this.setStartingTilesVal = function(num) {
+    this.startingTileVal = num;
+  }
+
+  this.reinitApp = function(size, number, val) {
+    this.setSize(size);
+    this.setStartingTiles(number);
+    this.setStartingTilesVal(val);
+  }
 
   var service = this;
 
@@ -92,6 +103,10 @@ angular.module('Grid', [])
     this.getSize = function() {
       return service.size;
     };
+
+    this.getStartingTilesVal = function() {
+      return service.setStartingTilesVal;
+    }
 
     /* FOR BUILDING EMPTY BOARD */
 
@@ -302,9 +317,9 @@ angular.module('Grid', [])
     /* FOR STARTING POSITION */
 
     /* Self explainde  */
-    this.randomlyInsertNewTile = function() {
+    this.randomlyInsertNewTile = function(num) {
       var cell = this.randomAvailableCell(),
-          tile = this.newTile(cell, 2);
+          tile = this.newTile(cell, service.startingTileVal);
       this.insertTile(tile);
     };
 

@@ -3,7 +3,7 @@
 angular
 .module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies'])
 .config(function(GridServiceProvider) {
-  GridServiceProvider.setSize(4);
+  // GridServiceProvider.reinitApp(4, 16, 16);
 })
 .controller('GameController', function(GameManager, KeyboardService, $scope) {
 

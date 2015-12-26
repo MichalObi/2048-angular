@@ -5,29 +5,30 @@
 @import "_functions";
 
 $width: 400px;
-$min-tile-count: 3;
+$min-tile-count: 3; 
 $max-tile-count: 6;
 $tile-padding: 15px;
 $tile-radius: 3px;
 $tile-font: 'Open Sans', sans-serif;
-$colors:  #EEE4DA, // 2
-          #EAE0C8, // 4
-          #F59563, // 8
-          #3399ff, // 16
-          #ffa333, // 32
-          #cef030, // 64
-          #E8D8CE, // 128
-          #990303, // 256
-          #6BA5DE, // 512
-          #DCAD60, // 1024
-          #B60022; // 2048
+$images:  '../images/snowman.svg', // 2
+          '../images/christmas-basket.svg', // 4
+          '../images/christmastree.svg', // 8
+          '../images/cookies.svg', // 16
+          '../images/fireplace.svg', // 32
+          '../images/gift.svg', // 64
+          '../images/socks.svg', // 128
+          '../images/santa-chimney.svg', // 256
+          '../images/sleigh.svg', // 512
+          '../images/snow-ball.svg', // 1024
+          '../images/santa.svg'; // 2048
 
 $game-container-background: #bbada0;
 $tile-color: #eee4da;
-$tile-gold-color: #edc22e;
-$tile-gold-glow-color: lighten($tile-gold-color, 15%);
-$text-color: #776E65;
-$bright-text-color: #f9f6f2;
+// $tile-gold-color: #edc22e;
+// $tile-gold-glow-color: lighten($tile-gold-color, 15%);
+// $bright-text-color: rgb(215, 236, 152);
+$text-color: #fff;
+$bcg-color: rgba(86, 55, 129, 0.6);
 
 // DON'T EDIT BELOW
 $transition-time: 170ms;
@@ -36,14 +37,27 @@ $transition-time: 170ms;
   max-width: 600px;
 }
 
+.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  @include transform(translate(-50%, -50%));
+}
+
+.bg-size {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 html, body {
   margin: 0;
   padding: 0;
-
-  background: #faf8ef;
-  color: $text-color;
-  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
+  color: $text-color;
+  background: $bcg-color;
+  font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  // height: 100vh;
 }
 
 p {
@@ -160,7 +174,7 @@ h1.title {
 
 .restart-button {
    display: inline-block;
-   background: #8f7a66;
+   background-color: rgba(215, 236, 152, 0.7);
    border-radius: 3px;
    padding: 0 20px;
    text-decoration: none;
@@ -312,9 +326,9 @@ h1.title {
           }
         }
 
-        @for $i from 1 through length($colors) {
+        @for $i from 1 through length($images) {
           &.tile-#{power(2, $i)} .tile-inner {
-            background: nth($colors, $i)
+            background-image: url(nth($images, $i))
           }
         }
         &:last-child {
@@ -356,15 +370,23 @@ h1.title {
 @include keyframes(pop) {
   0% {
     opacity: 1;
-    @include transform(scale(1));
+    @include transform(scale(1), translate(-50%, -50%));
+  }
+  25% {
+    // opacity: 0.25;
+    @include transform(scale(1.5), translate(-50%, -50%));
   }
   50% {
-    // opacity: 0;
-    @include transform(scale(1.2));
+    // opacity: 0.5;
+    @include transform(scale(2.5), translate(-50%, -50%));
+  }
+  75% {
+    // opacity: 0.75;
+    @include transform(scale(1.5), translate(-50%, -50%));
   }
   100% {
-    opacity: 0;
-    @include transform(scale(1));
+    opacity: 1;
+    @include transform(scale(1), translate(-50%, -50%));
   }
 }
 
@@ -373,6 +395,13 @@ h1.title {
 #HighScore-table {
     width: 320px;
     margin: 50px auto;
+    p {
+      font-size: 18px;
+      line-height: 28px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
     ul {
       margin-bottom: 0;
       padding-left: 0;
@@ -381,4 +410,14 @@ h1.title {
           margin: 10px 0;
       }
     }
+}
+
+.tile-inner { 
+  font-size: 0px !important; 
+  text-align: initial;
+  font-weight: initial;
+  width: 60px;
+  height: 60px;
+  @extend .bg-size;
+  @extend .absolute-center;
 }

@@ -1,7 +1,7 @@
 <div id="content" ng-controller='GameController as ctrl'>
   <!-- heading -->
   <div id="heading" class="row">
-    <h1 class="title">ng-2048</h1>
+    <h1 class="title">my2048</h1>
     <div class="scores-container">
       <div class="score-container">{{ctrl.game.currentScore}}</div>
       <div class="best-container">{{ctrl.game.highScore}}</div>
@@ -10,7 +10,7 @@
 
   <!-- instructions -->
   <div id="instructions" class="row">
-    Join the numbers and get to the <strong>2048</strong> tile!
+    Join the christmas icons and get to the <strong>SANTA</strong> tile!
     <button ng-click='ctrl.newGame()' class="restart-button">New game</button>
   </div>
   
@@ -34,6 +34,7 @@
   </div>
 
   <div id="HighScore-table">
+    <p>Top 5 scores</p>
     <ul>
       <li ng-repeat="obj in scores track by $index">{{$index}}) UserID: {{obj.id}} Score: <strong>{{ obj.get('HighScore') }}</strong></li>
     </ul>
