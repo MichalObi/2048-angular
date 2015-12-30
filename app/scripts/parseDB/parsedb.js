@@ -5,6 +5,8 @@ angular.module('Parsedb', [])
 .provider('Parsedbmanager', function() {
   this.$get = function($q, $http) {
 
+    var provider = this;
+
     // new Parse constructor
     var ParseHighScore = Parse.Object.extend('ParseHighScore');
 
@@ -12,12 +14,37 @@ angular.module('Parsedb', [])
     var parseHighScore = new ParseHighScore();
 
     this.parseInit = function() {
-       // $http.get('keys.php').then(function (response) {
-       //    var keys = response.data;
-       //    Parse.initialize(keys.appKey, keys.jsKey);
-       //  });
-        Parse.initialize('pGZExMJgbR0vy3EvyusNzTrybKP8rvRLQ7vQe77Y', 'ZXj4WmTxTHCWD0xD4oURQtnEcGelQCbCOjsYOi05'); 
+        Parse.initialize('', ''); 
     };
+
+    this.parseCreateUser = function(user) {
+      this.user = user;
+      var user = new Parse.User();
+          user.set("username", this.user.name),
+          user.set("password", this.user.password),
+          user.set("email", this.user.email);
+          user.signUp(null, {
+            success: function(user) {
+              console.log('User created');
+            },
+            error: function(user, error) {
+              console.log("Error: " + error.code + " " + error.message);
+            }
+        });
+    }
+
+    this.parseLogIn = function(user) {
+        this.user = user;
+        console.log(this.user);
+        Parse.User.logIn(this.user.login, this.user.pass, {
+          success: function(user) {
+            console.log(user + 'logged');
+          },
+          error: function(user, error) {
+            console.log('This' + user + ' has some ' + error.message);
+          }
+        });
+    }
 
     this.setParsedb = function(newScore) {
       // set val
@@ -25,13 +52,7 @@ angular.module('Parsedb', [])
       // save score to cloud
       parseHighScore.save(null, {
         success: function (parseHighScore) {
-          // protect from change saved obj 
-          // var acl = new Parse.ACL();
-          // acl.setPublicReadAccess(false);
-          // acl.setPublicWriteAccess(false);
-          // parseHighScore.setACL(acl); 
           console.log('New object created with objectId: ' + parseHighScore.id);
-          // return parseHighScore.save();
         },
         error: function (parseHighScore, error) {
           console.log('Failed to create new object, with error code: ' + error.message);

@@ -13,13 +13,22 @@ angular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])
 	};
 
 	// initialize parse 
-	this.parsedbInitialised = function() {
+	this.parseInitialised = function() {
       Parsedbmanager.parseInit();
+      // Parsedbmanager.parseCreateUser();
 	};
-	this.parsedbInitialised();
+	this.parseInitialised();
 
 	this.getFromParseDb = function() {
 		return Parsedbmanager.getParsedb();
+	};
+
+	this.registerUser = function(user) {
+		Parsedbmanager.parseCreateUser(user);
+	};
+
+	this.loginUser = function(user) {
+		Parsedbmanager.parseLogIn(user);
 	};
 
     // need to explicite declaration

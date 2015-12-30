@@ -1,13 +1,22 @@
 'use strict';
 
 angular
+
 .module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies'])
-.config(function(GridServiceProvider) {
-  // GridServiceProvider.reinitApp(4, 16, 16);
-})
+
+.config(function(GridServiceProvider) {})
+
 .controller('GameController', function(GameManager, KeyboardService, $scope) {
 
   this.game = GameManager;
+
+  this.registerUser = function(user) {
+     GameManager.registerUser(user);
+  }
+
+  this.loginUser = function(user) {
+    GameManager.loginUser(user);
+  }
 
   this.newGame = function() {
     // get the best scores

@@ -15,11 +15,9 @@
   </div>
   
   <div id="game-container">
-    <div grid ng-model='ctrl.game' class="row"></div>
-
+    <div grid ng-model='ctrl.game'></div>
     <div id="game-over" ng-if="ctrl.game.gameOver" class="row game-overlay">
-      Game over
-
+      <span>Game over</span>
       <div class="lower">
         <a class="retry-button" ng-click='ctrl.newGame()'>Try again</a>
       </div>
@@ -32,6 +30,52 @@
       </div>
     </div>
   </div>
+  <div class="icons-desc">
+    <div class="icon-itm icon-itm-1">
+      <div class="icon-img"></div>
+      <span class="icon-val">2</span>
+    </div>
+    <div class="icon-itm icon-itm-2">
+      <div class="icon-img"></div>
+      <span class="icon-val">4</span>
+    </div>
+    <div class="icon-itm icon-itm-3">
+      <div class="icon-img"></div>
+     <span class="icon-val">8</span>
+    </div>
+    <div class="icon-itm icon-itm-4">
+      <div class="icon-img"></div>
+      <span class="icon-val">16</span>
+    </div>
+    <div class="icon-itm icon-itm-5">
+      <div class="icon-img"></div>
+      <span class="icon-val">32</span>
+    </div>
+    <div class="icon-itm icon-itm-6">
+      <div class="icon-img"></div>
+      <span class="icon-val">64</span>
+    </div>
+    <div class="icon-itm icon-itm-7">
+      <div class="icon-img"></div>
+      <span class="icon-val">128</span>
+    </div>
+    <div class="icon-itm icon-itm-8">
+      <div class="icon-img"></div>
+      <span class="icon-val">256</span>
+    </div>
+    <div class="icon-itm icon-itm-9">
+      <div class="icon-img"></div>
+      <span class="icon-val">512</span>
+    </div>
+    <div class="icon-itm icon-itm-10">
+      <div class="icon-img"></div>
+      <span class="icon-val">1024</span>
+    </div>
+    <div class="icon-itm icon-itm-11">
+      <div class="icon-img"></div>
+      <span class="icon-val">2048</span>
+    </div>
+  </div>
 
   <div id="HighScore-table">
     <p>Top 5 scores</p>
@@ -40,11 +84,22 @@
     </ul>
   </div>
 
+  <form id="registerForm">
+    <input type="text" ng-model="user.name">
+    <input type="password" ng-model="user.password">
+    <input type="email" ng-model="user.email">
+    <input type="submit" ng-click="ctrl.registerUser(user)"></button>
+  </form>
+
+  <form novalidate id="loginForm">
+    <input type="text" ng-model="user.login">
+    <input type="password" ng-model="user.pass">
+    <input type="submit" ng-click="ctrl.loginUser(user)"></button>
+  </form>
+
   <div>
     <p>
       Reinterpretated by <a href="https://github.com/MichalObi">MichalObi</a> based on 2048 by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> and tutorial on <a href="http://www.ng-newsletter.com/">ng newsletter</a>.</a>
     </p>
   </div>
-
-
 </div>

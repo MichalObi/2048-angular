@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"m",
+				"mypass"
+			],
+			[
+				"text",
+				"text-transform"
+			],
+			[
+				"back",
+				"background-repeat"
+			],
+			[
+				"bac",
+				"background-size"
+			],
+			[
+				"impo",
+				"important"
+			],
+			[
+				"ran",
+				"randomlyInsertNewTile"
+			],
+			[
+				"re",
+				"request"
+			],
+			[
+				"object",
+				"objectId"
+			],
+			[
 				"ex",
 				"extend"
 			],
@@ -72,14 +104,6 @@
 				"GameManager"
 			],
 			[
-				"back",
-				"background"
-			],
-			[
-				"text",
-				"text-align"
-			],
-			[
 				"ba",
 				"background-color"
 			],
@@ -106,10 +130,6 @@
 			[
 				"wid",
 				"width"
-			],
-			[
-				"bac",
-				"background-position"
 			],
 			[
 				"tex",
@@ -420,24 +440,18 @@
 	"buffers":
 	[
 		{
-			"contents": "'use strict';\n\nangular\n.module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies'])\n.config(function(GridServiceProvider) {\n  GridServiceProvider.setSize(4);\n})\n.controller('GameController', function(GameManager, KeyboardService, $scope) {\n\n  this.game = GameManager;\n\n  this.newGame = function() {\n    // get the best scores\n    var promise = this.game.getFromParseDb();\n    // pass scores to $scope, if you have one\n    promise.then(function(scores) {\n      $scope.scores = scores;\n    });\n\n    KeyboardService.init();\n    this.game.newGame();\n    this.startGame();\n  };\n\n  this.startGame = function() {\n    var self = this;\n    KeyboardService.on(function(key) {\n      self.game.move(key);\n    });\n  };\n\n  this.newGame();\n});\n",
-			"file": "app/scripts/app.js",
-			"file_size": 705,
-			"file_write_time": 130952634782608447,
+			"file": "Gruntfile.js",
 			"settings":
 			{
-				"buffer_size": 756,
+				"buffer_size": 9975,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "/*\n* Game Module\n*\n* Description: Main Game Module\n*/\n'use strict';\n\nangular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])\n.service('GameManager', function(GridService, Parsedbmanager, $q, $timeout, $cookieStore, $log){\n\n	this.getHighScore = function() {\n	  return parseInt($cookieStore.get('highScore')) || 0;\n	};\n\n	// initialize parse \n	this.parsedbInitialised = function() {\n      Parsedbmanager.parseInit();\n	};\n	this.parsedbInitialised();\n\n	this.getFromParseDb = function() {\n		return Parsedbmanager.getParsedb();\n	};\n\n    // need to explicite declaration\n	this.grid = GridService.grid;\n	this.tiles = GridService.tiles;\n	this.gameSize = GridService.getSize();\n	this.winningValue = 2048;\n\n	this.reinit = function() {\n		this.gameOver = false;\n		this.win = false;\n		this.currentScore = 0;\n		this.highScore = this.getHighScore();\n	};\n	this.reinit();\n\n	// Create a new game\n	this.newGame = function() {\n    	// main method for start new game\n		GridService.buildEmptyGameBoard();\n    	GridService.buildStartingPosition();\n    	this.reinit();\n	};\n\n	// Handle the move anction - key from KeyboardService.on\n	this.move = function(key) {\n\n    // reference to GameManager\n    var self = this;\n    var f = function() {\n    	// if win no move left\n		if (self.win) { return false; }\n		//all possible movements coord\n		var positions = GridService.traversalDirections(key);\n    	var hasMoved = false;\n    	var hasWon = false;\n\n    	GridService.prepareTiles();\n\n    	positions.x.forEach(function(x){\n			positions.y.forEach(function(y) {\n				// for every position save orginal coord\n				var orginalPosition = {x:x, y:y};\n				// get the tile (coord + value) of curent tile on board\n				var tile = GridService.getCellAt(orginalPosition);\n	\n				// if we found tile \n				if (tile) {\n					// GridService return info about coord of next position and about tile to merge (if exist)\n					var cell = GridService.calculateNextPosition(tile, key),\n						  next = cell.next;\n\n					if (next && \n						next.value === tile.value && \n						!next.merged) {\n						\n						/* Do the merge */ \n						var newValue = tile.value * 2;\n\n						// create new merged tile\n						var merged = GridService.newTile(tile, newValue);\n\n						//merged property - prevent merging merged tile (?)\n						merged.merged = [tile, cell.next];\n\n						//insert tile with newValue\n						GridService.insertTile(merged);\n						//remove old tile, that has to be merged\n						GridService.removeTile(tile);\n						// move new Tile to old Tile position\n						GridService.moveTile(merged, next);\n\n						// update current score\n						self.updateScore(self.currentScore + cell.next.value);\n\n						//check if winind\n						if (merged.value >= self.winningValue) {\n							hasWon = true;\n						} \n            			hasMoved = true;\n					} \n					else {\n            			// handle moving tile\n            			GridService.moveTile(tile, cell.newPosition);\n          			}\n\n		          if (!GridService.samePositions(orginalPosition,cell.newPosition)) {\n		            hasMoved = true;\n		          }\n				}\n			});\n		});\n\n	    if (hasWon && !self.win) {\n	      self.win = true;\n	    }\n\n	    if (hasMoved) {\n	      GridService.randomlyInsertNewTile();\n\n	      if (self.win || !self.movesAvailable()) {\n	        	self.gameOver = true;\n	        	Parsedbmanager.setParsedb(self.currentScore);\n	        }\n	      }\n		};\n		return $q.when(f());\n	};\n\n\n	// Are there moves left ? - the end of the game \n 	this.movesAvailable = function() {\n 	 	return GridService.anyCellsAvailable() || GridService.tileMatchesAvailable();\n 	};\n\n 	// Update the score\n	this.updateScore = function(newScore) {\n		this.currentScore = newScore;\n	    if(this.currentScore > this.getHighScore()) {\n	      this.highScore = newScore;\n	      $cookieStore.put('highScore', newScore);\n	    }\n	};\n});\n",
-			"file": "app/scripts/game/game.js",
-			"file_size": 3854,
-			"file_write_time": 130952675277655665,
+			"file": "app/scripts/cloudcode/cloud/main.js",
 			"settings":
 			{
-				"buffer_size": 3776,
+				"buffer_size": 338,
 				"line_ending": "Unix"
 			}
 		},
@@ -445,18 +459,61 @@
 			"file": "app/scripts/parseDB/parsedb.js",
 			"settings":
 			{
-				"buffer_size": 1937,
+				"buffer_size": 2471,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "GFpeb.pl obi123 asdf\n\nobi123 asdf gryonline\n\nNeVrea obi123/asdf filmweb\n\npolishleech obi obiloni123\n\nobix92 obi123gie\n\nefqnfv8o\n\nfsawfj6u\n\nNevrea obix123 gameburner\n\nNeVrea konicka l2guru\n\nNeVrea efqnfv8o aion\n\nNeVreaPL fsawfj6u facebook tweeter\n\nobi123 asdf gryonline\n\nbdrpgclubx15@gmail.com pietrzak123 nuta123 <--- facebooke\n\nl2 pass BD\n\nqooeta6j bdrpgclub\n\nspoilx15 z4uuse3a\n \nmicha³.obielecki  k6uYE9\n\nnevrea obi123\n\nNeVrea efqnfv8o filmweb\n\nndwz123@gmail.com fsawfj6u\n\nPiqTan\nBarka\nnuta123\n\nconnect 69.39.232.11:28960\n\ngg: 8869802 pilot321\n\nNeVrea pajac123 czytanie\n\nNeVrea steamobi2323 steam (przyjazna nazwa dla przegladarki - NeV)\n\ninsomnia forum NeVrea pajace123\n\nkonica nuta369 l2insomnia\n\npajace123 ndwz123@gmail.com wow\n\nNeVrea pener23 ps3site.\n\n\n \nNeVrePL efqnfv8o ps3\n\nNeVrePL konicka gametrade\n\nEa account ndwz123@gmail.com konicka123\n\nkonicka369 \npietrzak123 passy l2 official i do gry\n\npytania: city born :poznan color of car brown\n\nNeVrea pajac123 mmorgp.com\n\npajace123 i email 4 games (l2)\n\n\nNeV obi123 klan legalize\n\nNeVrea obix123 alteriwnet\n\nObielecki kojot32 techland Akademia twórców gier\n\n\nnevrea peqsebep x-fire\n\nNeV pajacykol ESL\n\nNeVrea pawlinho gog ?\n\nNeVrePL obi123 Nail'd\n\nobi123 koniarz gastronauci\n\nNeVrea kolejorz12\n\nakademia daytraidingu obi123 baraban\n\nNeV b06f257 gragie³dowa\n\nNeVrePL bajcik15 raptr\n\nssijmijajca chuj12\n\nNeVrea pijaczyna ateista.pl\n\n\nMichalObielecki@gmail.com pracabaca13\n\nshadyrecords bajak15\n\ngumtree pracownikroku\n\nfinta.pl NeV wymianabookow\n\n\nwsb forum Micha³Obi. Bankowa1421\nNeVrePL blabla124 ultratajneforum\n\nWSB pz67540 wsbobielecki2323\n\ncrunchinkkoala NeVrea puchatykoala\n\n\nMicrosoft acc\n\nMicheal Obix ndwz123@gmail.com microsoftaccobi123\n\nmuve.pl muvesklep2345\n\nnowe passy lineage 2 ndwz123@gmail.com chujowizna4466 Obiblabla januar 3 1990 pet name: kola city born: poznan\n\nwsb2 forum wsb Obix678\nGyerosaski\n\nevernote  Obix92 pleonazm113\n\nfastdeal ndwz123 peroni12\n\ngoldenline pracagolden67\n\nrapgenius NeVrea flognog\n\n\n\nmichalobielecki@gmail.com sk7G1MDa4e videokurs programowanie\n\ncinemamovies Obix123 belzebub12\n\n4programmers NeVrea programistaroku2013\n\nplus500 forex bakugan76\n\nalkopoligamia  Obi123 alkoobi\n\n\nWordpress nevrea wordobipress0129 grynaparkiecie\n\nforum videokursy.pl NeVrea ndwz123@gmail.com programistaroku2013\n\nupload hotfile.com Uploader2013 uploader20131\n\nNeoGAF NeVrea penola17\n\nevenea.pl balboa19\n\ninstagram nevrea focieobiego87\n\nlapek Arbuz1110 komp-Micha³a\n\npocket 1czytelnikroku\n\navast obiwirusowiec92\n\nlubimyczytaæ obiczytelnik33\n\nmobilet kanarywon6 mobilet\n\nobielecki@icpnet.pl 81d21a mail\n\nkonto microsoft papryczka13 pytanie: nauczyciel - Wiaderna\n\neboa inea michalobielecki@gmail.com kablowaobiego10\n\nevernote ndwz123@gmail.com zbieraczinformacji\n\norgin ndwz123@gmail.com OrginObi123 \n\nl2 innova l2obi123\n\norange online telefon mamy: MamaObielecka MamaObielecka123\n\ngroupon zjadaczpromocyjny\n\ntorrenty org tomik666 sonyericson \n\nlinkedin pracownikroku88\n\n\nLinux VM wizard full name: michal123 user name: michal123 pass: linux123\n\nsklep kolonialny cejrowski kolonialnyobi\n\ngeneralassemb dash html/css obirobihtmla\n\npath of excille nowediabolo123\n\nlol alelol123 NeVrea (michal.obielecki@gmail.com)\n\nWarface NeVrea wojakobi123\n\nMrgreen kasyno kasyno1234\n\nDropBox - szko³a WSB\nlogin: wsbinfa2012@gmail.com\nhas³o: asdasdasd\n\nurbancity urbanobi blabla123\n\nelite ndwz123@gmail.com eliteobi12\n\nhttp://www.meetup.com/hive61/events/144464212/?fromEmail=144464212&rv=me2 hive obi123\n\nhttp://appser.pl NeVrea aplikacja123\n\ncodeacademy NeVrea obicoderroku\n\nubuntu forum NeVrea ubuntulinux123\n\nWunderlist michalobielecki@gmail.com nowycrm123 Micha³O.\n\nleancanvas ndwz123@gmail.com biznesplan1234\n\nankietka ndwz123@gmail.com	ankiety2323\n\nblog pelnageba.worpress.com michadmin1 michalobielecki@gmail.com\n\nUniwersytet Przyrodniczy - biuro karier michalobielecki@gmail.com obi123\n\nCupSell obi123 koszulkowiec123\n\ndropbox  michal.obielecki dropobiego2323\n\ngarsoniera Abradab23 ndwzdziwuszki12\n\nbrowar123 WSBGrupaXXX dropbox + gmail grupy\n\nndwz123@gmail.com targiobi123\n\ncba.pl hosting\n\nui-kit-test.y0.pl\n\ntestowastronica2324\n\nftp do cba.pl\n\nui-kit-test\n\ntestowastronica2324\n\nfriko.pl \n	\nhostning friko.pl hsłow obixon12\n\nMichealo Obini obibeatmaker345\n\ngithub\nobix123\nndwz123@gmail.com\nMichalObi\n\n\nMichalObi obix123\nobielecki.com.pl\nhome.pl login: \n\nhasło Kevorianka12\n\ncba.pl obielecki.com.pl strona domowa\n\nstronadomowaadmin1\n\nadobe photoshop acc\n\nndwz123@gmail.com malarzobi123 Micheal Obini\n\nsoundcloud muzykiobi123 ndwz123@gmail.com\n\ninfopraca - linkedin\n\nnorton antywirus ndwz123@gmail.com obix123\n\nuczestnicy.pl michalobielecki pracabaca13\n\ninCLICK d68ea8a9f1\n\nInclick@inclick.pl\n5Andk@mfu9w*D\n\nobix1212\nndwz123@gmail.com\n\ntentego skrypt Obi Admin1\n\nObi obix123\n\ngamedot \n\nMichal_Obielecki\ndotobicompl2\n\nhyperreal 6TCZSVSNBMMMM ndwz123@gmail.com NeV\n\naktywny ndwz123 aktywnymichal123\n\ngmail kanał yt NeV proproducent123 nevrproduction@gmail.com\n\nkotor NeVreaPL Obijedi123\n\nblog nevrproduction nevproducentroku123\n\nndwz123@gmail.com obitopatrician patrician iV\n\nuplay ndwz123@gmail.com uplayobix123\n\nziemowit3385 <-- skype\n\nanalfabeta2323 skype ndwz123@gmail.com\n\nstackoverflow ndwz123@gmail.com\n\ncode school obikoderemroku ndwz123@gmail.com\n\nsleepyeye.pl nazwa.pl login: vato-shop hasło: Ziemowit33#\n\ncba.pl sleepyeye.pl domena nazwa konta: sleepyeyecba hasło notsosleepy123\n\nMichealObi sleepytaskmanager123 todoist.com\n\nndwz123@gmail.com singielfuck11 strefasingla (chyba)\n\nbaza danych sleepeeye.pl\nuser: adminobi123 hasło:obi123admin\n\nmicheal obiwpadmin123$ wp sleepyeye\n\nkonto ziemowita: \n\npz67540 Wsbobielecki2324\n\nWPEXPLORER Micheal123 konicka123\n\nWordpress meni localhost Meni admini123 ->strona apibara.pl i virtualnemenu\n\ngg ndwz123@gmail.com ggobiego123\n\nhostinger hosting apibara -> michalobielecki@gmail.com\n\nxQ3kyx5Jjnp \n\nvirturalnemenu.pl -> ReWeGW2j0v wordrpess michal ReWeGW2j0v\n\nbazad danych nazwa: wp użytkownik admin KruReBh92U\n\nhosting ftp login: admin hasło: admin1\n\nhosting ftp login: admin hasło obiapibara123 apibara.pl\n\nmysql baza apibara.pl WP root123\n\nhostinger hosting saubercat-development -->ndwz123@gmail.com\n\nsaubercat localhost wordpress baza danych:wp_gra user: cat pass: devadmin123\n\nsaubercat baza danych user: saubercat pass: saubercatdev123\n\nndwz123@gmail.com Obigryrobi123\n\nlatex www.sharelatex.com obiwlatexie\n\ncinemamovies login: ndwz123 hasło: obixcinema123\n\nmichal.apibara@gmail.com virtualo123\n\ntrello michal.apibara@gmail.com \n\nvirtualnemenu konto ftp dla sublima user: admin hasło: obiapibara123\n\ngmail/drop - inżynierka inzynierka.wsb@gmail.com 2browary\n\nkomkarta peka michal.obielecki@gmail.com Komkartaobi123\n\nCMS skillfeed.com ndwz123@gmail.com cmsnazaliczenie Michael\n\nEuroAGD michalobielecki@gmail.com obidzikigon123\n\n7c9557e9 sympatia\n\nbattlenet heartstone michal.obielecki@gmail.com 123pajaceheartstony Micheal Obi 1 samochód - Maluch (pytanie pomocnicze) BattleTag NevrePL\n\n\n\n\nloteria paragonowa numer zgłoszenia: AW6NXT7U02F\n\napibara.pl Kevorianka12 home.pl\n\nbitbucket inżynierka Michał Obielecki MichalObielecki bitbucketobix123 teamID wsbinynierka team name WSB - Inżynierka\n\nndwz123@gmail.com obil2again123 lineage 2 936581 pin l2\n\nbitbucket ndwz123@gmail.com obibitbucket123\n\nndwz123@gmail.com Michal92 base64obipl base64obipl podrywaczek.pl\n\nmichal.obielecki@gmail.com ObixParse123 ParseTestApp\n\nkopia zapasowa plików telefon - obi123 \n\n",
-			"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
-			"file_size": 7784,
-			"file_write_time": 130953347085617493,
+			"file": "app/scripts/app.js",
 			"settings":
 			{
-				"buffer_size": 7379,
+				"buffer_size": 724,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "'use strict';\n\nangular.module('Grid', [])\n.factory('GenerateUniqueId', function() {\n  var generateUid = function() {\n    // http://www.ietf.org/rfc/rfc4122.txt\n    // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript\n    var d = new Date().getTime();\n    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n      var r = (d + Math.random()*16)%16 | 0;\n      d = Math.floor(d/16);\n      return (c === 'x' ? r : (r&0x7|0x8)).toString(16);\n    });\n    return uuid;\n  };\n  return {\n    next: function() { return generateUid(); }\n  };\n})\n.factory('TileModel', function(GenerateUniqueId) {\n  var Tile = function(pos, val) {\n    this.x      = pos.x;\n    this.y      = pos.y;\n    this.value  = val || 2;\n\n    this.id = GenerateUniqueId.next();\n    this.merged = null;\n  };\n\n  /* PROTOTYPE FUNCTION */\n  Tile.prototype.savePosition = function() {\n      this.originalX = this.x;\n      this.originalY = this.y;\n    };\n\n    Tile.prototype.reset = function() {\n      this.merged = null;\n    };\n\n    Tile.prototype.setMergedBy = function(arr) {\n      var self = this;\n      arr.forEach(function(tile) {\n        tile.merged = true;\n        tile.updatePosition(self.getPosition());\n      });\n    };\n\n    Tile.prototype.updateValue = function(newVal) {\n      this.value = newVal;\n    };\n\n    Tile.prototype.updatePosition = function(newPosition) {\n      this.x = newPosition.x;\n      this.y = newPosition.y;\n    };\n\n    Tile.prototype.getPosition = function() {\n      return {\n        x: this.x,\n        y: this.y\n      };\n    };\n\n  return Tile;\n})\n.provider('GridService', function() {\n  this.size = 4; // default size\n  this.startingTileVal = 2; // value of inserted tile;\n  this.startingTileNumber = 2; // default starting tiles\n\n  this.setSize = function(sz) {\n    this.size = sz ? sz : 0; // if 'sz' not 0 - set size to sz\n  };\n\n  this.setStartingTilesVal = function(num) {\n    this.startingTileVal = num;\n  }\n\n  this.setStartingTiles = function(num) {\n    this.startingTileNumber = num;\n  };\n\n  this.reinitApp = function(size, number, val) {\n    this.setSize(size);\n    this.setStartingTiles(number);\n    this.setStartingTilesVal(val);\n  }\n\n  var service = this;\n\n  // provider need get function to work correctly\n  this.$get = function(TileModel) {\n    \n    this.grid   = [];\n    this.tiles  = [];\n\n    var vectors = {\n      'left': { x: -1, y: 0 },\n      'right': { x: 1, y: 0 },\n      'up': { x: 0, y: -1 },\n      'down': { x: 0, y: 1 }\n    };\n\n    this.getSize = function() {\n      return service.size;\n    };\n\n    this.getStartingTilesVal = function() {\n      return service.setStartingTilesVal;\n    }\n\n    /* FOR BUILDING EMPTY BOARD */\n\n    // Build game board\n    this.buildEmptyGameBoard = function() {\n      var self = this;\n      // Initialize grid with null object\n      for (var x = 0; x < service.size * service.size; x++) {\n        this.grid[x] = null;\n      }\n\n      this.forEach(function(x,y) {\n        self.setCellAt({x:x,y:y}, null);\n      });\n    };\n\n    this.prepareTiles = function() {\n      this.forEach(function(x,y,tile) {\n        if (tile) {\n          tile.savePosition();\n          tile.reset();\n        }\n      });\n    };\n\n    // traversal \n    this.traversalDirections = function(key) {\n      // key provider function is not defined yet\n      var vector = vectors[key];\n      var positions = {x: [], y: []};\n      for (var x = 0; x < this.size; x++) {\n        positions.x.push(x);\n        positions.y.push(x);\n      }\n      // reverse array for right - look vectors var !\n      if (vector.x > 0) {\n        positions.x = positions.x.reverse();\n      }\n      // reverse array for down - look vectors var !\n      if (vector.y > 0) {\n        positions.y = positions.y.reverse();\n      }\n      \n      return positions;\n    };\n\n    this.calculateNextPosition = function(cell, key) {\n      var vector = vectors[key];\n      // need to save it, for back if we cant marge (?)\n      var previous;\n\n      // loop execute at least one time \n      do {\n        previous = cell;\n        cell = {\n          x: previous.x + vector.x,\n          y: previous.y + vector.y\n        };\n      } while (this.withinGrid(cell) && this.cellAvailable(cell));\n\n      return {\n        newPosition: previous,\n        next: this.getCellAt(cell)\n      };  \n    };\n\n    /* Is the position within the grid? Size define width of grid. */\n    this.withinGrid = function(cell) {\n      return cell.x >= 0 && cell.x < this.size &&\n              cell.y >= 0 && cell.y < this.size;\n    };\n\n    /* Check if is avaliable cell at given position - why it's negation in return ! ?*/\n    this.cellAvailable = function(cell) {\n      if (this.withinGrid(cell)) {\n        return !this.getCellAt(cell);\n      } else {\n        return null;\n      }\n    };\n\n    /* Build the initial starting position with randomly placed tiles - default 2 elements */\n    this.buildStartingPosition = function() {\n      for (var x = 0; x < this.startingTileNumber; x++) {\n        this.randomlyInsertNewTile();\n      }\n    };\n\n    /*\n     * Check to see if there are any matches available\n     */\n    this.tileMatchesAvailable = function() {\n      var totalSize = service.size * service.size;\n      for (var i = 0; i < totalSize; i++) {\n        var pos = this._positionToCoordinates(i);\n        var tile = this.tiles[i];\n\n        if (tile) {\n          // Check all vectors\n          for (var vectorName in vectors) {\n            var vector = vectors[vectorName];\n            var cell = { x: pos.x + vector.x, y: pos.y + vector.y };\n            var other = this.getCellAt(cell);\n            if (other && other.value === tile.value) {\n              return true;\n            }\n          }\n        }\n      }\n      return false;\n    };\n\n    /* Get a cell at a position (0-based) */\n    this.getCellAt = function(pos) {\n      if (this.withinGrid(pos)) {\n        var x = this._coordinatesToPosition(pos);\n        return this.tiles[x];\n      } else {\n        return null;\n      }\n    };\n\n    /* Set a cell at position (0-based) */\n    this.setCellAt = function(pos, tile) {\n      if (this.withinGrid(pos)) {\n        var xPos = this._coordinatesToPosition(pos);\n        this.tiles[xPos] = tile;\n      }\n    };\n\n    /* MOVING TILE - GAME LOOP  */\n    this.moveTile = function(tile, newPosition) {\n      // before update with newPosition\n      var oldPos = {\n        x: tile.x,\n        y: tile.y\n      };\n      // if it's no tile\n      this.setCellAt(oldPos, null);\n      // convert coord to position and push to tile[] - back\n      this.setCellAt(newPosition, tile);\n      // update coord in tile model - front \n      tile.updatePosition(newPosition);\n    };\n\n    /* callback for every \"cell\" eather grid or tiles - help to get x,y for every cell in grid */\n    this.forEach = function(cb) {\n      var totalSize = service.size * service.size;\n      for (var i = 0; i < totalSize; i++) {\n        var pos = this._positionToCoordinates(i);\n        cb(pos.x, pos.y, this.tiles[i]);\n      }\n    };\n\n    /* Helper to convert x to x,y */\n    this._positionToCoordinates = function(i) {\n      var x = i % service.size,\n          y = (i - x) / service.size;\n      return {\n        x: x,\n        y: y\n      };\n    };\n\n    /* Helper to convert x,y to x */\n    this._coordinatesToPosition = function(pos) {\n      return (pos.y * service.size) + pos.x;\n    };\n\n   /* * Insert a new tile */\n    this.insertTile = function(tile) {\n      var pos = this._coordinatesToPosition(tile);\n      this.tiles[pos] = tile;\n    };\n\n    /* Create new tile */\n    this.newTile = function(pos, value) {\n      return new TileModel(pos, value);\n    };\n\n    /* * Remove a tile  */\n    this.removeTile = function(pos) {\n      pos = this._coordinatesToPosition(pos);\n      delete this.tiles[pos];\n    };\n\n    this.samePositions = function(a, b) {\n      return a.x === b.x && a.y === b.y;\n    };\n\n    /* Check for all available tiles */\n    this.availableCells = function() {\n      var cells = [],\n          self = this;\n\n      this.forEach(function(x,y) {\n        var foundTile = self.getCellAt({x:x, y:y});\n        if (!foundTile) {\n          cells.push({x:x,y:y});\n        }\n      });\n\n      return cells;\n    };\n\n    /****************************************************************/\n\n    /* FOR STARTING POSITION */\n\n    /* Self explainde  */\n    this.randomlyInsertNewTile = function(num) {\n      var cell = this.randomAvailableCell(),\n          tile = this.newTile(cell, service.startingTileVal);\n      this.insertTile(tile);\n    };\n\n    /* Get a randomly available cell from all the currently available cells */\n    this.randomAvailableCell = function() {\n      var cells = this.availableCells();\n      if (cells.length > 0) {\n        return cells[Math.floor(Math.random() * cells.length)];\n      }\n    };\n\n    /*\n     * Check to see there are still cells available\n     */\n    this.anyCellsAvailable = function() {\n      return this.availableCells().length > 0;\n    };\n\n    return this;\n  };\n});",
+			"file": "app/scripts/grid/grid.js",
+			"file_size": 8959,
+			"file_write_time": 130955988216803848,
+			"settings":
+			{
+				"buffer_size": 8964,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/scripts/game/game.js",
+			"settings":
+			{
+				"buffer_size": 3815,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/main.html",
+			"settings":
+			{
+				"buffer_size": 2976,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "// bower:scss\n@import \"../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss\";\n// endbower\n\n@import \"_functions\";\n\n$width: 400px;\n$min-tile-count: 3; \n$max-tile-count: 6;\n$tile-padding: 15px;\n$tile-radius: 3px;\n$tile-font: 'Open Sans', sans-serif;\n$images:  '../images/snowman.svg', // 2\n          '../images/christmas-basket.svg', // 4\n          '../images/christmastree.svg', // 8\n          '../images/cookies.svg', // 16\n          '../images/fireplace.svg', // 32\n          '../images/gift.svg', // 64\n          '../images/socks.svg', // 128\n          '../images/santa-chimney.svg', // 256\n          '../images/sleigh.svg', // 512\n          '../images/snow-ball.svg', // 1024\n          '../images/santa.svg'; // 2048\n\n$game-container-background: #bbada0;\n$tile-color: #eee4da;\n// $tile-gold-color: #edc22e;\n// $tile-gold-glow-color: lighten($tile-gold-color, 15%);\n// $bright-text-color: rgb(215, 236, 152);\n$text-color: #fff;\n$bcg-color: rgba(86, 55, 129, 0.6);\n\n// DON'T EDIT BELOW\n$transition-time: 170ms;\n\n.container {\n  max-width: 600px;\n}\n\n.absolute-center {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  @include transform(translate(-50%, -50%));\n}\n\n.bg-size {\n  background-size: cover;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n\nhtml, body {\n  margin: 0;\n  padding: 0;\n  font-size: 18px;\n  color: $text-color;\n  background: $bcg-color;\n  font-family: \"Open Sans\", \"Helvetica Neue\", Arial, sans-serif;\n  // height: 100vh;\n}\n\np {\n   margin-top: 0;\n   margin-bottom: 10px;\n   line-height: 1.65;\n   display: block;\n   -webkit-margin-before: 1em;\n   -webkit-margin-after: 1em;\n   -webkit-margin-start: 0px;\n   -webkit-margin-end: 0px;\n}\n\na {\n  color: $text-color;\n  font-weight: bold;\n  text-decoration: underline;\n  cursor: pointer;\n  &:hover {\n    color: darken($text-color, 5%);\n  }\n}\n\nstrong {\n  &.important {\n    text-transform: uppercase;\n  }\n}\n\nhr {\n  border: none;\n  border-bottom: 1px solid lighten($text-color, 40%);\n  margin-top: 20px;\n  margin-bottom: 30px;\n}\n\n#heading {\n   margin-top: 4em;\n}\n  \nh1.title {\n   font-size: 80px;\n   font-weight: bold;\n   margin: 0;\n   display: block;\n   float: left;\n}\n\n.scores-container {\n  text-align: right;\n  float: right;\n}\n\n.score-container, .best-container {\n  $inner-height: 25px;\n\n  min-height: 2.5em;\n  min-width: 5em;\n\n  position: relative;\n  display: inline-block;\n  background: $game-container-background;\n  padding: 15px 25px;\n  font-size: $inner-height;\n  height: $inner-height;\n  line-height: $inner-height + 22px;\n  font-weight: bold;\n  border-radius: 3px;\n  color: white;\n  margin: 10px 5px;\n  text-align: center;\n\n  &:after {\n    position: absolute;\n    width: 100%;\n    top: 10px;\n    left: 0;\n    text-transform: uppercase;\n    font-size: 13px;\n    line-height: 13px;\n    text-align: center;\n    color: $tile-color;\n  }\n\n  .score-addition {\n    position: absolute;\n    right: 30px;\n    color: red;\n    font-size: $inner-height;\n    line-height: $inner-height;\n    font-weight: bold;\n    color: rgba($text-color, .9);\n    z-index: 100;\n    @include animation(move-up 600ms ease-in);\n    @include animation-fill-mode(both);\n  }\n}\n\n.score-container:after {\n  content: \"Score\";\n}\n\n.best-container:after {\n  content: \"Best\"\n}\n\n#instructions {\n   padding-top: 0.5em;\n\n   .restart-button {\n      margin-top: -0.5em; /* hack */\n   }\n}\n\n.restart-button {\n   display: inline-block;\n   background-color: rgba(215, 236, 152, 0.7);\n   border-radius: 3px;\n   padding: 0 20px;\n   text-decoration: none;\n   color: #f9f6f2;\n   height: 40px;\n   line-height: 42px;\n   cursor: pointer;\n   display: block;\n   text-align: center;\n   float: right;\n   border: none;\n}\n\n#content {\n   \n}\n\n#game-container {\n   position: relative;\n   width: $width;\n   height: $width;\n   margin: 40px auto;\n}\n\n.game-overlay {\n  width: $width;\n  height: $width;\n  background-color: rgba(255, 255, 255, 0.47);\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  text-align: center;\n  padding-top: 35%;\n  font-size: 3em;\n  font-weight: bold;\n  overflow: hidden;\n  box-sizing: border-box;\n  \n  &.ng-enter {\n    @include transition(all 1000ms ease-in);\n    @include transform(translate(0, 100%));\n    opacity: 0;\n  }\n\n  &.ng-enter-active {\n    @include transform(translate(0, 0));\n    opacity: 1;\n  }\n\n  .lower {\n    display: block;\n    margin-top: 29px;\n    font-size: 16px;\n\n    a {\n       display: inline-block;\n       background: #8f7a66;\n       border-radius: 3px;\n       padding: 0 20px;\n       text-decoration: none;\n       color: #f9f6f2;\n       height: 40px;\n       line-height: 42px;\n       cursor: pointer;\n       margin-left: 9px;\n    }\n  }\n}\n\n@mixin game-board($tile-count: 4) {\n  $tile-size: ($width - $tile-padding * ($tile-count + 1)) / $tile-count;\n  #game-#{$tile-count} { \n    position: relative;\n    padding: $tile-padding;\n    cursor: default;\n    background: #bbaaa0;\n    border-radius: 6px;\n    width: $width;\n    height: $width;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n\n    .grid-container {\n      position: absolute;\n      z-index: 1;\n      margin: 0 auto;\n\n      .grid-cell {\n        width: $tile-size;\n        height: $tile-size;\n        margin-bottom: $tile-padding;\n        margin-right: $tile-padding;\n        float: left;\n        @include border-radius($tile-radius);\n        background: rgba(238, 228, 218, 0.35);\n        &:last-child {\n          margin-right: 0\n        }\n      }\n    }\n\n    .tile-container {\n      position: absolute;\n      z-index: 2;\n\n      .unstyled-tile {\n        font-family: $tile-font;\n        position: absolute;\n        width: $tile-size;\n        height: $tile-size;\n        background: white;\n        margin: 0 auto;\n        font-size: 2em;\n        text-align: center;\n        font-weight: bold;\n        z-index: 10;\n        font-size: 2.5em;\n        line-height: ($width/$tile-count) - $tile-padding;\n      }\n      .tile {\n        font-family: $tile-font;\n        position: absolute;\n        width: $tile-size;\n        height: $tile-size;\n        @include border-radius($tile-radius);\n        @include transition($transition-time ease-in-out);\n        // @include transition-property(transform);\n        -webkit-transition-property: -webkit-transform;\n        -moz-transition-property: -moz-transform;\n        transition-property: transform;\n        z-index: 2;\n\n        &.tile-merged .tile-inner {\n          @include animation(pop 200ms ease-in);\n        }\n\n        @for $x from 1 through $tile-count {\n          @for $y from 1 through $tile-count {\n            $zeroOffsetX: $x - 1;\n            $zeroOffsetY: $y - 1;\n            $newX: ($tile-size) * ($zeroOffsetX) + ($tile-padding * $zeroOffsetX);\n            $newY: ($tile-size) * ($zeroOffsetY) + ($tile-padding * $zeroOffsetY);\n\n            &.position-#{$zeroOffsetX}-#{$zeroOffsetY} { \n              @include transform(translate($newX, $newY));\n            }\n          }\n        }\n\n        @for $i from 1 through length($images) {\n          &.tile-#{power(2, $i)} .tile-inner {\n            background-image: url(nth($images, $i))\n          }\n        }\n        &:last-child {\n          margin-right: 0\n        }\n\n        .tile-inner {\n          line-height: ($width/$tile-count) - $tile-padding;\n\n          text-align: center;\n          font-weight: bold;\n          z-index: 10;\n          font-size: 2.5em;\n        }\n      }\n    }\n  }\n}\n\n@for $i from $min-tile-count through $max-tile-count {\n  @include game-board($i);\n}\n\n@include keyframes(appear) {\n  0% {\n    opacity: 0;\n    @include transform(scale(0));\n  }\n  50% {\n    opacity: 1;\n    @include transform(scale(1.2));\n  }\n  100% {\n    opacity: 1;\n    @include transform(scale(1));\n  } \n}\n\n@include keyframes(pop) {\n  0% {\n    opacity: 1;\n    @include transform(scale(1), translate(-50%, -50%));\n  }\n  25% {\n    // opacity: 0.25;\n    @include transform(scale(1.5), translate(-50%, -50%));\n  }\n  50% {\n    // opacity: 0.5;\n    @include transform(scale(2.5), translate(-50%, -50%));\n  }\n  75% {\n    // opacity: 0.75;\n    @include transform(scale(1.5), translate(-50%, -50%));\n  }\n  100% {\n    opacity: 1;\n    @include transform(scale(1), translate(-50%, -50%));\n  }\n}\n\n/* My CSS */\n\n#HighScore-table {\n    width: 320px;\n    margin: 50px auto;\n    p {\n      font-size: 18px;\n      line-height: 28px;\n      text-align: center;\n      text-transform: uppercase;\n      font-weight: 700;\n    }\n    ul {\n      margin-bottom: 0;\n      padding-left: 0;\n      list-style: none;\n      li {\n          margin: 10px 0;\n      }\n    }\n}\n\n.tile-inner { \n  font-size: 0px !important; \n  text-align: initial;\n  font-weight: initial;\n  width: 60px;\n  height: 60px;\n  @extend .bg-size;\n  @extend .absolute-center;\n}",
+			"file": "app/styles/main.scss",
+			"file_size": 8706,
+			"file_write_time": 130957253876800647,
+			"settings":
+			{
+				"buffer_size": 8708,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+			"settings":
+			{
+				"buffer_size": 7618,
 				"line_ending": "Windows"
 			}
 		},
@@ -469,10 +526,18 @@
 			}
 		},
 		{
-			"file": "app/keys.php",
+			"file": "dist/index.html",
 			"settings":
 			{
-				"buffer_size": 244,
+				"buffer_size": 1471,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/styles/main.css",
+			"settings":
+			{
+				"buffer_size": 175896,
 				"line_ending": "Windows"
 			}
 		}
@@ -542,9 +607,18 @@
 	"file_history":
 	[
 		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/obfuscated/parseDB/parsedb.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/styles/_functions.scss",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/parseDB/parsedb.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/4az5lfku.2j5.txt",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/index.html",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/My2048-angular.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/.parse.project",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/.parse.local",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/keys.php",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/main.js",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/grid/grid.js",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/app.js",
-		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/parseDB/parsedb.js",
 		"/C/Users/Michał/Desktop/Drop-backup/menu.txt",
 		"/C/Users/Michał/Downloads/parse-js-blank/sample/parse-js-blank/index.html",
 		"/C/Users/Kamil/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
@@ -659,20 +733,11 @@
 		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.css",
 		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/.htaccess",
 		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-config-sample.php",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.min.css",
-		"/G/Program Files (x86)/xampp/htdocs/WP/wp-config.php",
-		"/G/Program Files (x86)/xampp/htdocs/WP/wp-config-sample.php",
-		"/G/Program Files (x86)/xampp/htdocs/WP/wp-content/themes/starter/css/main.css",
-		"/C/Users/Michał/Desktop/MOST IMPORTANT PROJECT/Sleepy Eye Studio/pliki_strony/startbootstrap-agency-1.0.0/startbootstrap-agency-1.0.0/sleepyeyev1.2/index.html",
-		"/C/Users/Michał/Desktop/WP/wp-config.php",
-		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/03/sass/03_mixins.scss",
-		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/02/sass/02_zmienne.scss",
-		"/G/kursy/Preprocesory CSS/zrodla/Dzial 1/01/sass/01_zagniezdzone_selektory.scss",
-		"/C/test/sass/test.scss"
+		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.min.css"
 	],
 	"find":
 	{
-		"height": 34.0
+		"height": 36.0
 	},
 	"find_in_files":
 	{
@@ -686,6 +751,40 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"gars",
+			"score-c",
+			"b2",
+			"js",
+			"pGZExMJgbR0vy3EvyusNzTrybKP8rvRLQ7vQe77Y",
+			"steam",
+			"this",
+			"that",
+			"parseI",
+			"body",
+			"HighScore-tabl",
+			"restart",
+			"container",
+			"gold",
+			"bright-text-color",
+			"pop",
+			"appear",
+			"pop",
+			"apear",
+			"ap",
+			"apear",
+			"pop",
+			"animation",
+			"images",
+			"colors",
+			"images",
+			"colors",
+			"randomlyInsertNewTile",
+			"insertTile",
+			"setStartingTiles",
+			"check",
+			"console",
+			"scores",
+			"git",
 			"getFromParseDb",
 			"getParsedbHighScore",
 			"set",
@@ -779,41 +878,7 @@
 			"allow",
 			"admin",
 			"root",
-			"document",
-			"docunment",
-			"docunment root",
-			"docs",
-			"documentroot",
-			"document",
-			"root",
-			"kom",
-			"peka",
-			"footer",
-			"#footer",
-			"758",
-			"#navigation",
-			"#navigation .navbar-nav > li > a",
-			"25px ",
-			"allow",
-			"mod_rewrite",
-			"Rewrite",
-			"rewrite",
-			"nic",
-			"IfModule dir_module",
-			"dir_module",
-			"allow",
-			"DirectoryIndex",
-			"CustomLog",
-			"LogFormat",
-			"documentroot",
-			"listen",
-			"Send E-Mail",
-			"value",
-			"submit",
-			"a:link",
-			" .menu-primary-items a:visited",
-			".menu-unset > ul a:link, .menu-unset > ul a:visited, .menu-primary-items a:link, .menu-primary-items a:visited",
-			"logo"
+			"document"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -821,6 +886,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"images",
 			"G:/"
 		],
 		"reverse": false,
@@ -832,23 +898,23 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 8,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/scripts/app.js",
+					"file": "Gruntfile.js",
 					"settings":
 					{
-						"buffer_size": 756,
+						"buffer_size": 9975,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								410,
-								410
+								925,
+								927
 							]
 						],
 						"settings":
@@ -868,18 +934,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/scripts/game/game.js",
+					"file": "app/scripts/cloudcode/cloud/main.js",
 					"settings":
 					{
-						"buffer_size": 3776,
+						"buffer_size": 338,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								526,
-								526
+								21,
+								21
 							]
 						],
 						"settings":
@@ -887,11 +953,10 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 42.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -901,15 +966,46 @@
 					"file": "app/scripts/parseDB/parsedb.js",
 					"settings":
 					{
-						"buffer_size": 1937,
+						"buffer_size": 2471,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								1937
+								471,
+								471
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 819.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/scripts/app.js",
+					"settings":
+					{
+						"buffer_size": 724,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								154,
+								154
 							]
 						],
 						"settings":
@@ -928,48 +1024,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
-					"settings":
-					{
-						"buffer_size": 7379,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7368,
-								7368
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 5703.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 4,
-					"file": "app/index.html",
+					"file": "app/scripts/grid/grid.js",
 					"settings":
 					{
-						"buffer_size": 5360,
+						"buffer_size": 8964,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2183,
-								2183
+								1459,
+								1459
 							]
 						],
 						"settings":
@@ -977,22 +1044,52 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 78.0,
+						"translation.y": 468.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 5,
-					"file": "app/keys.php",
+					"file": "app/scripts/game/game.js",
 					"settings":
 					{
-						"buffer_size": 244,
+						"buffer_size": 3815,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								455,
+								413
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/views/main.html",
+					"settings":
+					{
+						"buffer_size": 2976,
 						"regions":
 						{
 						},
@@ -1008,7 +1105,160 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/styles/main.scss",
+					"settings":
+					{
+						"buffer_size": 8708,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2071,
+								2071
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/SCSS/SCSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1112.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+					"settings":
+					{
+						"buffer_size": 7618,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3952,
+								3967
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2950.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "app/index.html",
+					"settings":
+					{
+						"buffer_size": 5360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3631,
+								3581
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 390.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "dist/index.html",
+					"settings":
+					{
+						"buffer_size": 1471,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1471,
+								1471
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "app/styles/main.css",
+					"settings":
+					{
+						"buffer_size": 175896,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1060,7 +1310,7 @@
 	},
 	"replace":
 	{
-		"height": 42.0
+		"height": 126.0
 	},
 	"save_all_on_build": true,
 	"select_file":
