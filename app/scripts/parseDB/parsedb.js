@@ -14,7 +14,7 @@ angular.module('Parsedb', [])
     var parseHighScore = new ParseHighScore();
 
     this.parseInit = function() {
-        Parse.initialize('', ''); 
+        Parse.initialize('pGZExMJgbR0vy3EvyusNzTrybKP8rvRLQ7vQe77Y', 'ZXj4WmTxTHCWD0xD4oURQtnEcGelQCbCOjsYOi05'); 
     };
 
     this.parseCreateUser = function(user) {
@@ -35,7 +35,6 @@ angular.module('Parsedb', [])
 
     this.parseLogIn = function(user) {
         this.user = user;
-        console.log(this.user);
         Parse.User.logIn(this.user.login, this.user.pass, {
           success: function(user) {
             console.log(user + 'logged');

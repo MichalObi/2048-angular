@@ -1,21 +1,25 @@
 'use strict';
 
-angular
+var app = angular.module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies', 'ui.bootstrap']);
 
-.module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies'])
+app.config(function(GridServiceProvider) {})
 
-.config(function(GridServiceProvider) {})
-
-.controller('GameController', function(GameManager, KeyboardService, $scope) {
+app.controller('GameController', ['$scope', '$modal', 'GameManager', 'KeyboardService', function($scope, $modal, GameManager, KeyboardService) {
 
   this.game = GameManager;
 
-  this.registerUser = function(user) {
-     GameManager.registerUser(user);
-  }
-
-  this.loginUser = function(user) {
-    GameManager.loginUser(user);
+  this.openModal = function() {
+    $modal.open({
+        templateUrl: 'views/BootstrapModal.html',
+        controller: function($scope, $modalInstance, GameManager) {
+          $scope.registerUser = function(user) {
+            GameManager.registerUser(user);
+          }
+          $scope.loginUser = function(user) {
+            GameManager.loginUser(user);
+          }
+        }
+    });
   }
 
   this.newGame = function() {
@@ -39,4 +43,4 @@ angular
   };
 
   this.newGame();
-});
+}]);

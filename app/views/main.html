@@ -10,7 +10,10 @@
 
   <!-- instructions -->
   <div id="instructions" class="row">
-    Join the christmas icons and get to the <strong>SANTA</strong> tile!
+    <div class="text-wrap">
+        <p>Join the christmas icons and get to the <strong>SANTA</strong> tile!</p>
+        <p>To store data in leaderboard you need to <a class="internal-link" ng-click="ctrl.openModal()">Log in</a> first</p>
+    </div>
     <button ng-click='ctrl.newGame()' class="restart-button">New game</button>
   </div>
   
@@ -84,7 +87,7 @@
     </ul>
   </div>
 
-  <form id="registerForm">
+<!--   <form id="registerForm">
     <input type="text" ng-model="user.name">
     <input type="password" ng-model="user.password">
     <input type="email" ng-model="user.email">
@@ -95,7 +98,7 @@
     <input type="text" ng-model="user.login">
     <input type="password" ng-model="user.pass">
     <input type="submit" ng-click="ctrl.loginUser(user)"></button>
-  </form>
+  </form> -->
 
   <div>
     <p>

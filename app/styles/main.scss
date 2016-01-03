@@ -15,7 +15,7 @@ $images:  '../images/snowman.svg', // 2
           '../images/gift.svg', // 64
           '../images/socks.svg', // 128
           '../images/santa-chimney.svg', // 256
-          '../images/sleigh.svg', // 512
+          '../images/sleigh.svg', // 512100
           '../images/snow-ball.svg', // 1024
           '../images/santa.svg'; // 2048
 
@@ -26,6 +26,7 @@ $game-container-background: #bbada0;
 $tile-color: #eee4da;
 $text-color: #fff;
 $bcg-color: rgba(86, 55, 129, 0.6);
+$bcg-color-hover: rgba(135, 120, 155, 1);
 
 $transition-time: 170ms;
 $green: rgba(215, 236, 152, 0.7);
@@ -33,7 +34,7 @@ $green-light: rgba(215, 230, 180, 0.7);
 
 .container {
   max-width: 600px;
-  height: 100vh;
+  // height: 100vh;
 }
 
 .bg-size {
@@ -174,7 +175,6 @@ h1.title {
    height: 40px;
    line-height: 42px;
    cursor: pointer;
-   display: block;
    text-align: center;
    float: right;
    border: none;
@@ -419,6 +419,23 @@ h1.title {
 
 /* My CSS */
 
+.text-wrap {
+  margin: 10px 0;
+  display: inline-block;
+  p {
+    margin: 0;
+    line-height: 30px;
+  }
+}
+
+.internal-link {
+  color: #4d4dff;
+  font-weight: 700;
+  text-decoration: underline;
+  @include transition(all 0.2s linear);
+  &:hover {color: #ccccff; }
+}
+
 #HighScore-table {
     width: 320px;
     margin: 50px auto;
@@ -489,4 +506,54 @@ h1.title {
 
 input {
   color: #000;
+}
+
+#modal-wrap {
+  .modal-title {
+    margin: 20px 0;
+    color: #000;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 25px;
+    line-height: 35px;
+  }
+  h3 {
+    font-size: 19px;
+    line-height: 29px;
+  }
+  .modal-body {
+  .form-wrap {
+      margin: 0 auto;
+      max-width: 250px;
+      input {
+        margin: 10px auto;
+        padding: 0 20px;
+        display: block;
+        height: 50px;
+        width: 200px;
+        border-radius: 8px;
+        outline: none;
+        box-shadow: none;
+        @include transition(all 0.2s linear);
+        &.submit-button {
+          margin: 20px auto;
+          text-transform: uppercase;
+          background-color: $bcg-color;
+          border: 1px solid transparent;
+          &:hover {
+            background-color: $bcg-color-hover;
+          }
+        }
+      }
+    }
+  }
+  .modal-footer p {
+    color: #000;
+    font-size: 15px;
+    line-height: 25px; 
+    text-align: center;
+  }
 }

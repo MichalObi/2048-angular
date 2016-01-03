@@ -4,12 +4,12 @@
 		"selected_items":
 		[
 			[
-				"m",
-				"mypass"
+				"text",
+				"text-decoration"
 			],
 			[
-				"text",
-				"text-transform"
+				"m",
+				"mypass"
 			],
 			[
 				"back",
@@ -440,53 +440,21 @@
 	"buffers":
 	[
 		{
-			"file": "Gruntfile.js",
+			"file": "app/views/BootstrapModal.html",
 			"settings":
 			{
-				"buffer_size": 9975,
-				"line_ending": "Unix"
+				"buffer_size": 853,
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/scripts/cloudcode/cloud/main.js",
-			"settings":
-			{
-				"buffer_size": 338,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/scripts/parseDB/parsedb.js",
-			"settings":
-			{
-				"buffer_size": 2471,
-				"line_ending": "Unix"
-			}
-		},
-		{
+			"contents": "'use strict';\n\nvar app = angular.module('twentyfourtyeightApp', ['Game', 'Grid', 'Keyboard', 'ngAnimate', 'ngCookies', 'ui.bootstrap']);\n\napp.config(function(GridServiceProvider) {})\n\napp.controller('GameController', ['$scope', '$modal', 'GameManager', 'KeyboardService', function($scope, $modal, GameManager, KeyboardService) {\n\n  this.game = GameManager;\n\n  this.openModal = function() {\n    $modal.open({\n        templateUrl: 'views/BootstrapModal.html',\n    });\n  }\n\n  this.registerUser = function(user) {\n     GameManager.registerUser(user);\n  }\n\n  this.loginUser = function(user) {\n    GameManager.loginUser(user);\n  }\n\n  this.newGame = function() {\n    // get the best scores\n    var promise = this.game.getFromParseDb();\n    // pass scores to $scope, if you have one\n    promise.then(function(scores) {\n      $scope.scores = scores;\n    });\n\n    KeyboardService.init();\n    this.game.newGame();\n    this.startGame();\n  };\n\n  this.startGame = function() {\n    var self = this;\n    KeyboardService.on(function(key) {\n      self.game.move(key);\n    });\n  };\n\n  this.newGame();\n}]);\n",
 			"file": "app/scripts/app.js",
+			"file_size": 1137,
+			"file_write_time": 130962473039718448,
 			"settings":
 			{
-				"buffer_size": 724,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "'use strict';\n\nangular.module('Grid', [])\n.factory('GenerateUniqueId', function() {\n  var generateUid = function() {\n    // http://www.ietf.org/rfc/rfc4122.txt\n    // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript\n    var d = new Date().getTime();\n    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\n      var r = (d + Math.random()*16)%16 | 0;\n      d = Math.floor(d/16);\n      return (c === 'x' ? r : (r&0x7|0x8)).toString(16);\n    });\n    return uuid;\n  };\n  return {\n    next: function() { return generateUid(); }\n  };\n})\n.factory('TileModel', function(GenerateUniqueId) {\n  var Tile = function(pos, val) {\n    this.x      = pos.x;\n    this.y      = pos.y;\n    this.value  = val || 2;\n\n    this.id = GenerateUniqueId.next();\n    this.merged = null;\n  };\n\n  /* PROTOTYPE FUNCTION */\n  Tile.prototype.savePosition = function() {\n      this.originalX = this.x;\n      this.originalY = this.y;\n    };\n\n    Tile.prototype.reset = function() {\n      this.merged = null;\n    };\n\n    Tile.prototype.setMergedBy = function(arr) {\n      var self = this;\n      arr.forEach(function(tile) {\n        tile.merged = true;\n        tile.updatePosition(self.getPosition());\n      });\n    };\n\n    Tile.prototype.updateValue = function(newVal) {\n      this.value = newVal;\n    };\n\n    Tile.prototype.updatePosition = function(newPosition) {\n      this.x = newPosition.x;\n      this.y = newPosition.y;\n    };\n\n    Tile.prototype.getPosition = function() {\n      return {\n        x: this.x,\n        y: this.y\n      };\n    };\n\n  return Tile;\n})\n.provider('GridService', function() {\n  this.size = 4; // default size\n  this.startingTileVal = 2; // value of inserted tile;\n  this.startingTileNumber = 2; // default starting tiles\n\n  this.setSize = function(sz) {\n    this.size = sz ? sz : 0; // if 'sz' not 0 - set size to sz\n  };\n\n  this.setStartingTilesVal = function(num) {\n    this.startingTileVal = num;\n  }\n\n  this.setStartingTiles = function(num) {\n    this.startingTileNumber = num;\n  };\n\n  this.reinitApp = function(size, number, val) {\n    this.setSize(size);\n    this.setStartingTiles(number);\n    this.setStartingTilesVal(val);\n  }\n\n  var service = this;\n\n  // provider need get function to work correctly\n  this.$get = function(TileModel) {\n    \n    this.grid   = [];\n    this.tiles  = [];\n\n    var vectors = {\n      'left': { x: -1, y: 0 },\n      'right': { x: 1, y: 0 },\n      'up': { x: 0, y: -1 },\n      'down': { x: 0, y: 1 }\n    };\n\n    this.getSize = function() {\n      return service.size;\n    };\n\n    this.getStartingTilesVal = function() {\n      return service.setStartingTilesVal;\n    }\n\n    /* FOR BUILDING EMPTY BOARD */\n\n    // Build game board\n    this.buildEmptyGameBoard = function() {\n      var self = this;\n      // Initialize grid with null object\n      for (var x = 0; x < service.size * service.size; x++) {\n        this.grid[x] = null;\n      }\n\n      this.forEach(function(x,y) {\n        self.setCellAt({x:x,y:y}, null);\n      });\n    };\n\n    this.prepareTiles = function() {\n      this.forEach(function(x,y,tile) {\n        if (tile) {\n          tile.savePosition();\n          tile.reset();\n        }\n      });\n    };\n\n    // traversal \n    this.traversalDirections = function(key) {\n      // key provider function is not defined yet\n      var vector = vectors[key];\n      var positions = {x: [], y: []};\n      for (var x = 0; x < this.size; x++) {\n        positions.x.push(x);\n        positions.y.push(x);\n      }\n      // reverse array for right - look vectors var !\n      if (vector.x > 0) {\n        positions.x = positions.x.reverse();\n      }\n      // reverse array for down - look vectors var !\n      if (vector.y > 0) {\n        positions.y = positions.y.reverse();\n      }\n      \n      return positions;\n    };\n\n    this.calculateNextPosition = function(cell, key) {\n      var vector = vectors[key];\n      // need to save it, for back if we cant marge (?)\n      var previous;\n\n      // loop execute at least one time \n      do {\n        previous = cell;\n        cell = {\n          x: previous.x + vector.x,\n          y: previous.y + vector.y\n        };\n      } while (this.withinGrid(cell) && this.cellAvailable(cell));\n\n      return {\n        newPosition: previous,\n        next: this.getCellAt(cell)\n      };  \n    };\n\n    /* Is the position within the grid? Size define width of grid. */\n    this.withinGrid = function(cell) {\n      return cell.x >= 0 && cell.x < this.size &&\n              cell.y >= 0 && cell.y < this.size;\n    };\n\n    /* Check if is avaliable cell at given position - why it's negation in return ! ?*/\n    this.cellAvailable = function(cell) {\n      if (this.withinGrid(cell)) {\n        return !this.getCellAt(cell);\n      } else {\n        return null;\n      }\n    };\n\n    /* Build the initial starting position with randomly placed tiles - default 2 elements */\n    this.buildStartingPosition = function() {\n      for (var x = 0; x < this.startingTileNumber; x++) {\n        this.randomlyInsertNewTile();\n      }\n    };\n\n    /*\n     * Check to see if there are any matches available\n     */\n    this.tileMatchesAvailable = function() {\n      var totalSize = service.size * service.size;\n      for (var i = 0; i < totalSize; i++) {\n        var pos = this._positionToCoordinates(i);\n        var tile = this.tiles[i];\n\n        if (tile) {\n          // Check all vectors\n          for (var vectorName in vectors) {\n            var vector = vectors[vectorName];\n            var cell = { x: pos.x + vector.x, y: pos.y + vector.y };\n            var other = this.getCellAt(cell);\n            if (other && other.value === tile.value) {\n              return true;\n            }\n          }\n        }\n      }\n      return false;\n    };\n\n    /* Get a cell at a position (0-based) */\n    this.getCellAt = function(pos) {\n      if (this.withinGrid(pos)) {\n        var x = this._coordinatesToPosition(pos);\n        return this.tiles[x];\n      } else {\n        return null;\n      }\n    };\n\n    /* Set a cell at position (0-based) */\n    this.setCellAt = function(pos, tile) {\n      if (this.withinGrid(pos)) {\n        var xPos = this._coordinatesToPosition(pos);\n        this.tiles[xPos] = tile;\n      }\n    };\n\n    /* MOVING TILE - GAME LOOP  */\n    this.moveTile = function(tile, newPosition) {\n      // before update with newPosition\n      var oldPos = {\n        x: tile.x,\n        y: tile.y\n      };\n      // if it's no tile\n      this.setCellAt(oldPos, null);\n      // convert coord to position and push to tile[] - back\n      this.setCellAt(newPosition, tile);\n      // update coord in tile model - front \n      tile.updatePosition(newPosition);\n    };\n\n    /* callback for every \"cell\" eather grid or tiles - help to get x,y for every cell in grid */\n    this.forEach = function(cb) {\n      var totalSize = service.size * service.size;\n      for (var i = 0; i < totalSize; i++) {\n        var pos = this._positionToCoordinates(i);\n        cb(pos.x, pos.y, this.tiles[i]);\n      }\n    };\n\n    /* Helper to convert x to x,y */\n    this._positionToCoordinates = function(i) {\n      var x = i % service.size,\n          y = (i - x) / service.size;\n      return {\n        x: x,\n        y: y\n      };\n    };\n\n    /* Helper to convert x,y to x */\n    this._coordinatesToPosition = function(pos) {\n      return (pos.y * service.size) + pos.x;\n    };\n\n   /* * Insert a new tile */\n    this.insertTile = function(tile) {\n      var pos = this._coordinatesToPosition(tile);\n      this.tiles[pos] = tile;\n    };\n\n    /* Create new tile */\n    this.newTile = function(pos, value) {\n      return new TileModel(pos, value);\n    };\n\n    /* * Remove a tile  */\n    this.removeTile = function(pos) {\n      pos = this._coordinatesToPosition(pos);\n      delete this.tiles[pos];\n    };\n\n    this.samePositions = function(a, b) {\n      return a.x === b.x && a.y === b.y;\n    };\n\n    /* Check for all available tiles */\n    this.availableCells = function() {\n      var cells = [],\n          self = this;\n\n      this.forEach(function(x,y) {\n        var foundTile = self.getCellAt({x:x, y:y});\n        if (!foundTile) {\n          cells.push({x:x,y:y});\n        }\n      });\n\n      return cells;\n    };\n\n    /****************************************************************/\n\n    /* FOR STARTING POSITION */\n\n    /* Self explainde  */\n    this.randomlyInsertNewTile = function(num) {\n      var cell = this.randomAvailableCell(),\n          tile = this.newTile(cell, service.startingTileVal);\n      this.insertTile(tile);\n    };\n\n    /* Get a randomly available cell from all the currently available cells */\n    this.randomAvailableCell = function() {\n      var cells = this.availableCells();\n      if (cells.length > 0) {\n        return cells[Math.floor(Math.random() * cells.length)];\n      }\n    };\n\n    /*\n     * Check to see there are still cells available\n     */\n    this.anyCellsAvailable = function() {\n      return this.availableCells().length > 0;\n    };\n\n    return this;\n  };\n});",
-			"file": "app/scripts/grid/grid.js",
-			"file_size": 8959,
-			"file_write_time": 130955988216803848,
-			"settings":
-			{
-				"buffer_size": 8964,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/scripts/game/game.js",
-			"settings":
-			{
-				"buffer_size": 3815,
+				"buffer_size": 1087,
 				"line_ending": "Unix"
 			}
 		},
@@ -494,51 +462,32 @@
 			"file": "app/views/main.html",
 			"settings":
 			{
-				"buffer_size": 2976,
+				"buffer_size": 3611,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "// bower:scss\n@import \"../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss\";\n// endbower\n\n@import \"_functions\";\n\n$width: 400px;\n$min-tile-count: 3; \n$max-tile-count: 6;\n$tile-padding: 15px;\n$tile-radius: 3px;\n$tile-font: 'Open Sans', sans-serif;\n$images:  '../images/snowman.svg', // 2\n          '../images/christmas-basket.svg', // 4\n          '../images/christmastree.svg', // 8\n          '../images/cookies.svg', // 16\n          '../images/fireplace.svg', // 32\n          '../images/gift.svg', // 64\n          '../images/socks.svg', // 128\n          '../images/santa-chimney.svg', // 256\n          '../images/sleigh.svg', // 512\n          '../images/snow-ball.svg', // 1024\n          '../images/santa.svg'; // 2048\n\n$game-container-background: #bbada0;\n$tile-color: #eee4da;\n// $tile-gold-color: #edc22e;\n// $tile-gold-glow-color: lighten($tile-gold-color, 15%);\n// $bright-text-color: rgb(215, 236, 152);\n$text-color: #fff;\n$bcg-color: rgba(86, 55, 129, 0.6);\n\n// DON'T EDIT BELOW\n$transition-time: 170ms;\n\n.container {\n  max-width: 600px;\n}\n\n.absolute-center {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  @include transform(translate(-50%, -50%));\n}\n\n.bg-size {\n  background-size: cover;\n  background-position: center;\n  background-repeat: no-repeat;\n}\n\nhtml, body {\n  margin: 0;\n  padding: 0;\n  font-size: 18px;\n  color: $text-color;\n  background: $bcg-color;\n  font-family: \"Open Sans\", \"Helvetica Neue\", Arial, sans-serif;\n  // height: 100vh;\n}\n\np {\n   margin-top: 0;\n   margin-bottom: 10px;\n   line-height: 1.65;\n   display: block;\n   -webkit-margin-before: 1em;\n   -webkit-margin-after: 1em;\n   -webkit-margin-start: 0px;\n   -webkit-margin-end: 0px;\n}\n\na {\n  color: $text-color;\n  font-weight: bold;\n  text-decoration: underline;\n  cursor: pointer;\n  &:hover {\n    color: darken($text-color, 5%);\n  }\n}\n\nstrong {\n  &.important {\n    text-transform: uppercase;\n  }\n}\n\nhr {\n  border: none;\n  border-bottom: 1px solid lighten($text-color, 40%);\n  margin-top: 20px;\n  margin-bottom: 30px;\n}\n\n#heading {\n   margin-top: 4em;\n}\n  \nh1.title {\n   font-size: 80px;\n   font-weight: bold;\n   margin: 0;\n   display: block;\n   float: left;\n}\n\n.scores-container {\n  text-align: right;\n  float: right;\n}\n\n.score-container, .best-container {\n  $inner-height: 25px;\n\n  min-height: 2.5em;\n  min-width: 5em;\n\n  position: relative;\n  display: inline-block;\n  background: $game-container-background;\n  padding: 15px 25px;\n  font-size: $inner-height;\n  height: $inner-height;\n  line-height: $inner-height + 22px;\n  font-weight: bold;\n  border-radius: 3px;\n  color: white;\n  margin: 10px 5px;\n  text-align: center;\n\n  &:after {\n    position: absolute;\n    width: 100%;\n    top: 10px;\n    left: 0;\n    text-transform: uppercase;\n    font-size: 13px;\n    line-height: 13px;\n    text-align: center;\n    color: $tile-color;\n  }\n\n  .score-addition {\n    position: absolute;\n    right: 30px;\n    color: red;\n    font-size: $inner-height;\n    line-height: $inner-height;\n    font-weight: bold;\n    color: rgba($text-color, .9);\n    z-index: 100;\n    @include animation(move-up 600ms ease-in);\n    @include animation-fill-mode(both);\n  }\n}\n\n.score-container:after {\n  content: \"Score\";\n}\n\n.best-container:after {\n  content: \"Best\"\n}\n\n#instructions {\n   padding-top: 0.5em;\n\n   .restart-button {\n      margin-top: -0.5em; /* hack */\n   }\n}\n\n.restart-button {\n   display: inline-block;\n   background-color: rgba(215, 236, 152, 0.7);\n   border-radius: 3px;\n   padding: 0 20px;\n   text-decoration: none;\n   color: #f9f6f2;\n   height: 40px;\n   line-height: 42px;\n   cursor: pointer;\n   display: block;\n   text-align: center;\n   float: right;\n   border: none;\n}\n\n#content {\n   \n}\n\n#game-container {\n   position: relative;\n   width: $width;\n   height: $width;\n   margin: 40px auto;\n}\n\n.game-overlay {\n  width: $width;\n  height: $width;\n  background-color: rgba(255, 255, 255, 0.47);\n  position: absolute;\n  top: 0;\n  left: 0;\n  z-index: 10;\n  text-align: center;\n  padding-top: 35%;\n  font-size: 3em;\n  font-weight: bold;\n  overflow: hidden;\n  box-sizing: border-box;\n  \n  &.ng-enter {\n    @include transition(all 1000ms ease-in);\n    @include transform(translate(0, 100%));\n    opacity: 0;\n  }\n\n  &.ng-enter-active {\n    @include transform(translate(0, 0));\n    opacity: 1;\n  }\n\n  .lower {\n    display: block;\n    margin-top: 29px;\n    font-size: 16px;\n\n    a {\n       display: inline-block;\n       background: #8f7a66;\n       border-radius: 3px;\n       padding: 0 20px;\n       text-decoration: none;\n       color: #f9f6f2;\n       height: 40px;\n       line-height: 42px;\n       cursor: pointer;\n       margin-left: 9px;\n    }\n  }\n}\n\n@mixin game-board($tile-count: 4) {\n  $tile-size: ($width - $tile-padding * ($tile-count + 1)) / $tile-count;\n  #game-#{$tile-count} { \n    position: relative;\n    padding: $tile-padding;\n    cursor: default;\n    background: #bbaaa0;\n    border-radius: 6px;\n    width: $width;\n    height: $width;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n\n    .grid-container {\n      position: absolute;\n      z-index: 1;\n      margin: 0 auto;\n\n      .grid-cell {\n        width: $tile-size;\n        height: $tile-size;\n        margin-bottom: $tile-padding;\n        margin-right: $tile-padding;\n        float: left;\n        @include border-radius($tile-radius);\n        background: rgba(238, 228, 218, 0.35);\n        &:last-child {\n          margin-right: 0\n        }\n      }\n    }\n\n    .tile-container {\n      position: absolute;\n      z-index: 2;\n\n      .unstyled-tile {\n        font-family: $tile-font;\n        position: absolute;\n        width: $tile-size;\n        height: $tile-size;\n        background: white;\n        margin: 0 auto;\n        font-size: 2em;\n        text-align: center;\n        font-weight: bold;\n        z-index: 10;\n        font-size: 2.5em;\n        line-height: ($width/$tile-count) - $tile-padding;\n      }\n      .tile {\n        font-family: $tile-font;\n        position: absolute;\n        width: $tile-size;\n        height: $tile-size;\n        @include border-radius($tile-radius);\n        @include transition($transition-time ease-in-out);\n        // @include transition-property(transform);\n        -webkit-transition-property: -webkit-transform;\n        -moz-transition-property: -moz-transform;\n        transition-property: transform;\n        z-index: 2;\n\n        &.tile-merged .tile-inner {\n          @include animation(pop 200ms ease-in);\n        }\n\n        @for $x from 1 through $tile-count {\n          @for $y from 1 through $tile-count {\n            $zeroOffsetX: $x - 1;\n            $zeroOffsetY: $y - 1;\n            $newX: ($tile-size) * ($zeroOffsetX) + ($tile-padding * $zeroOffsetX);\n            $newY: ($tile-size) * ($zeroOffsetY) + ($tile-padding * $zeroOffsetY);\n\n            &.position-#{$zeroOffsetX}-#{$zeroOffsetY} { \n              @include transform(translate($newX, $newY));\n            }\n          }\n        }\n\n        @for $i from 1 through length($images) {\n          &.tile-#{power(2, $i)} .tile-inner {\n            background-image: url(nth($images, $i))\n          }\n        }\n        &:last-child {\n          margin-right: 0\n        }\n\n        .tile-inner {\n          line-height: ($width/$tile-count) - $tile-padding;\n\n          text-align: center;\n          font-weight: bold;\n          z-index: 10;\n          font-size: 2.5em;\n        }\n      }\n    }\n  }\n}\n\n@for $i from $min-tile-count through $max-tile-count {\n  @include game-board($i);\n}\n\n@include keyframes(appear) {\n  0% {\n    opacity: 0;\n    @include transform(scale(0));\n  }\n  50% {\n    opacity: 1;\n    @include transform(scale(1.2));\n  }\n  100% {\n    opacity: 1;\n    @include transform(scale(1));\n  } \n}\n\n@include keyframes(pop) {\n  0% {\n    opacity: 1;\n    @include transform(scale(1), translate(-50%, -50%));\n  }\n  25% {\n    // opacity: 0.25;\n    @include transform(scale(1.5), translate(-50%, -50%));\n  }\n  50% {\n    // opacity: 0.5;\n    @include transform(scale(2.5), translate(-50%, -50%));\n  }\n  75% {\n    // opacity: 0.75;\n    @include transform(scale(1.5), translate(-50%, -50%));\n  }\n  100% {\n    opacity: 1;\n    @include transform(scale(1), translate(-50%, -50%));\n  }\n}\n\n/* My CSS */\n\n#HighScore-table {\n    width: 320px;\n    margin: 50px auto;\n    p {\n      font-size: 18px;\n      line-height: 28px;\n      text-align: center;\n      text-transform: uppercase;\n      font-weight: 700;\n    }\n    ul {\n      margin-bottom: 0;\n      padding-left: 0;\n      list-style: none;\n      li {\n          margin: 10px 0;\n      }\n    }\n}\n\n.tile-inner { \n  font-size: 0px !important; \n  text-align: initial;\n  font-weight: initial;\n  width: 60px;\n  height: 60px;\n  @extend .bg-size;\n  @extend .absolute-center;\n}",
-			"file": "app/styles/main.scss",
-			"file_size": 8706,
-			"file_write_time": 130957253876800647,
+			"file": "app/scripts/game/game.js",
 			"settings":
 			{
-				"buffer_size": 8708,
+				"buffer_size": 3931,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
-			"settings":
-			{
-				"buffer_size": 7618,
-				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "app/index.html",
 			"settings":
 			{
-				"buffer_size": 5360,
+				"buffer_size": 2572,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "dist/index.html",
+			"file": "bower.json",
 			"settings":
 			{
-				"buffer_size": 1471,
+				"buffer_size": 447,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/styles/main.css",
-			"settings":
-			{
-				"buffer_size": 175896,
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -606,20 +555,46 @@
 	},
 	"file_history":
 	[
-		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
-		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/obfuscated/parseDB/parsedb.js",
-		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/styles/_functions.scss",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/game/bootstrap-modal.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/bower.json",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/styles/main.scss",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/parseDB/parsedb.js",
-		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/4az5lfku.2j5.txt",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/views/bootstrap-modal.html",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/index.html",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/game/modal.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/game/model.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/controllers/main.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/views/model",
+		"/G/BpO/eX/Stalker (1979) Andrei Tarkovsky/Stalker.1979.DVDRip.XviD.AC3.Mono.CD1-KG.txt",
+		"/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
+		"/C/Users/Michał/Desktop/Drop-backup/menu.txt",
+		"/G/BpO/eX/Humans.S01E03.HDTV.x264-TLA[ettv]/humans.s01e03.hdtv.x264-tla.txt",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/.bowerrc",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/bower_components/angular-bootstrap/index.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/package.json",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/Gruntfile.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/bower_components/angular-bootstrap/ui-bootstrap-csp.css",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/bower_components/angular-bootstrap/README.md",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/bower_components/angular-bootstrap/ui-bootstrap.min.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/bower_components/angular-bootstrap/ui-bootstrap-tpls.js",
+		"/G/BpO/eX/Grand Theft Auto (GTA) San Andreas v1.06 Android/INSTALLL NOTE.txt",
+		"/G/BpO/eX/Humans.S01E02.HDTV.x264-TLA[ettv]/humans.s01e02.hdtv.x264-tla.txt",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/styles/_functions.scss",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/cloud/main.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/app.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/grid/grid.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/game/game.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/views/main.html",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/dist/index.html",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/styles/main.css",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/obfuscated/parseDB/parsedb.js",
+		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/4az5lfku.2j5.txt",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/My2048-angular.js",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/.parse.project",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/.parse.local",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/keys.php",
 		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/cloudcode/main.js",
-		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/grid/grid.js",
-		"/G/Backup/angular - 2048 game/2048-angular-repo/2048-angular/app/scripts/app.js",
-		"/C/Users/Michał/Desktop/Drop-backup/menu.txt",
 		"/C/Users/Michał/Downloads/parse-js-blank/sample/parse-js-blank/index.html",
 		"/C/Users/Kamil/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Kamil/AppData/Roaming/Sublime Text 3/Packages/User/HTML.sublime-settings",
@@ -707,33 +682,7 @@
 		"/G/Program Files (x86)/xampp/apache/conf/httpd.conf",
 		"/C/Users/Michał/Desktop/httpd.conf.txt",
 		"/C/Users/Michał/Desktop/UCZELNIA/CMS/ĆWICZENIE/simpleCMS",
-		"/G/BpO/eX/House.of.Cards.S03.720p.WEBRip.DD5.1.x264-FGT/House.of.Cards.S03E07.720p.WEBRip.DD5.1.x264-FGT.txt",
-		"/G/Activision/Vampire - The Masquerade Bloodlines/vtmbup-readme.txt",
-		"/C/Users/Michał/Desktop/UCZELNIA/CMS/ĆWICZENIE/display.php",
-		"/C/Users/Michał/Desktop/UCZELNIA/CMS/ĆWICZENIE/display.html",
-		"/G/Program Files (x86)/xampp/htdocs/index.php",
-		"/C/Users/Michał/Desktop/SimpleCMS/SimpleCMS/display.php",
-		"/C/Users/Michał/Desktop/UCZELNIA/CMS/main.html",
-		"/C/Users/Michał/Desktop/UCZELNIA/CMS/main.html.txt",
-		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/front-page.php",
-		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/index.php",
-		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/css/main.css",
-		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/sftp-config.json",
-		"/C/Users/Michał/Desktop/public_html/wp-content/themes/starter/css/bootstrap.min.css",
-		"/C/Users/Michał/Desktop/wp-config-sample.php",
-		"/G/Program Files (x86)/xampp/apache/conf/extra/httpd-vhosts.conf",
-		"/C/Users/Michał/Desktop/Administrowanie systemami/httpd.conf",
-		"/C/Users/Michał/Desktop/tor-0.2.5.10.tar/tor-0.2.5.10/tor-0.2.5.10/install-sh",
-		"/G/Program Files (x86)/xampp/apache/manual/programs/htpasswd.html.tr.utf8",
-		"/G/Program Files (x86)/xampp/apache/bin/htpasswd.exe",
-		"/C/nic/index.html",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/plugins/send-e-mail/send-e-mail.php",
-		"/C/Users/Michał/Desktop/wp-config.php",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-config.php",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.css",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/.htaccess",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-config-sample.php",
-		"/G/Program Files (x86)/xampp/htdocs/WP_GRA/wp-content/themes/tracks/style.min.css"
+		"/G/BpO/eX/House.of.Cards.S03.720p.WEBRip.DD5.1.x264-FGT/House.of.Cards.S03E07.720p.WEBRip.DD5.1.x264-FGT.txt"
 	],
 	"find":
 	{
@@ -751,6 +700,19 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"this.ge",
+			"cook",
+			"$uibModal",
+			"log",
+			"gar",
+			"serve",
+			"ob",
+			"internal",
+			"transition",
+			"text-w",
+			"text-",
+			"restart-button",
+			"get",
 			"gars",
 			"score-c",
 			"b2",
@@ -865,20 +827,7 @@
 			"ndwz",
 			"play",
 			"psn",
-			"playstation",
-			"peka",
-			"city",
-			"ne",
-			"api",
-			"virt",
-			"table",
-			"sql",
-			"myadmin",
-			"deny",
-			"allow",
-			"admin",
-			"root",
-			"document"
+			"playstation"
 		],
 		"highlight": false,
 		"in_selection": false,
@@ -898,23 +847,23 @@
 	"groups":
 	[
 		{
-			"selected": 8,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Gruntfile.js",
+					"file": "app/views/BootstrapModal.html",
 					"settings":
 					{
-						"buffer_size": 9975,
+						"buffer_size": 853,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								925,
-								927
+								853,
+								853
 							]
 						],
 						"settings":
@@ -922,7 +871,7 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -934,18 +883,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/scripts/cloudcode/cloud/main.js",
+					"file": "app/scripts/app.js",
 					"settings":
 					{
-						"buffer_size": 338,
+						"buffer_size": 1087,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								21,
-								21
+								356,
+								356
 							]
 						],
 						"settings":
@@ -953,7 +902,9 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -963,18 +914,18 @@
 				},
 				{
 					"buffer": 2,
-					"file": "app/scripts/parseDB/parsedb.js",
+					"file": "app/views/main.html",
 					"settings":
 					{
-						"buffer_size": 2471,
+						"buffer_size": 3611,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								471,
-								471
+								310,
+								310
 							]
 						],
 						"settings":
@@ -982,38 +933,7 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 819.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/scripts/app.js",
-					"settings":
-					{
-						"buffer_size": 724,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								154,
-								154
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1024,50 +944,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "app/scripts/grid/grid.js",
-					"settings":
-					{
-						"buffer_size": 8964,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1459,
-								1459
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 468.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
+					"buffer": 3,
 					"file": "app/scripts/game/game.js",
 					"settings":
 					{
-						"buffer_size": 3815,
+						"buffer_size": 3931,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								455,
-								413
+								16,
+								16
 							]
 						],
 						"settings":
@@ -1085,110 +974,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/views/main.html",
-					"settings":
-					{
-						"buffer_size": 2976,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "app/styles/main.scss",
-					"settings":
-					{
-						"buffer_size": 8708,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2071,
-								2071
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/SCSS/SCSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1112.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/C/Users/Michał/Desktop/Drop-backup/ssyp.txt",
-					"settings":
-					{
-						"buffer_size": 7618,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3952,
-								3967
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 2950.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
+					"buffer": 4,
 					"file": "app/index.html",
 					"settings":
 					{
-						"buffer_size": 5360,
+						"buffer_size": 2572,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3631,
-								3581
+								164,
+								164
 							]
 						],
 						"settings":
@@ -1201,25 +999,25 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 390.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "dist/index.html",
+					"buffer": 5,
+					"file": "bower.json",
 					"settings":
 					{
-						"buffer_size": 1471,
+						"buffer_size": 447,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1471,
-								1471
+								447,
+								447
 							]
 						],
 						"settings":
@@ -1227,36 +1025,7 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "app/styles/main.css",
-					"settings":
-					{
-						"buffer_size": 175896,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": true,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},

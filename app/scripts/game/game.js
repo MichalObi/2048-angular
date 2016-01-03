@@ -1,6 +1,6 @@
 /*
 * Game Module
-*
+*W
 * Description: Main Game Module
 */
 'use strict';
@@ -15,7 +15,6 @@ angular.module('Game', ['Grid', 'Parsedb', 'ngCookies'])
 	// initialize parse 
 	this.parseInitialised = function() {
       Parsedbmanager.parseInit();
-      // Parsedbmanager.parseCreateUser();
 	};
 	this.parseInitialised();
 
