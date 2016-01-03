@@ -1,9 +1,9 @@
 
 'use strict';
 
-angular.module('Parsedb', [])
+angular.module('Parsedb', ['oitozero.ngSweetAlert'])
 .provider('Parsedbmanager', function() {
-  this.$get = function($q, $http) {
+  this.$get = function($q, $http, SweetAlert) {
 
     var provider = this;
 
@@ -18,31 +18,40 @@ angular.module('Parsedb', [])
     };
 
     this.parseCreateUser = function(user) {
-      this.user = user;
-      var user = new Parse.User();
+      try {
+        this.user = user;
+        var user = new Parse.User();
           user.set("username", this.user.name),
           user.set("password", this.user.password),
           user.set("email", this.user.email);
           user.signUp(null, {
             success: function(user) {
-              console.log('User created');
+              SweetAlert.swal("Good job!", "User created!", "success");
             },
             error: function(user, error) {
-              console.log("Error: " + error.code + " " + error.message);
+              SweetAlert.swal("Error!", error.code + " " + error.message, "error");
             }
         });
+      } catch(err) {
+        SweetAlert.swal("Error!", err, "error");
+      }
     }
 
     this.parseLogIn = function(user) {
+      try {
         this.user = user;
         Parse.User.logIn(this.user.login, this.user.pass, {
           success: function(user) {
-            console.log(user + 'logged');
+            SweetAlert.swal("Good job!", user + "logged.", "success");
           },
           error: function(user, error) {
-            console.log('This' + user + ' has some ' + error.message);
+            SweetAlert.swal("Error!", "This" + user + " has some " + error.message, "error");
           }
         });
+      } catch (err) {
+        SweetAlert.swal("Error!", err, "error");
+      }
+
     }
 
     this.setParsedb = function(newScore) {
